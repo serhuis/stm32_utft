@@ -387,6 +387,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\timertest.c</FilePath>
             </File>
+            <File>
+              <FileName>ui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ui.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
