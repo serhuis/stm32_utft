@@ -237,12 +237,12 @@ int main( void )
 
 	/* Start the tasks defined within this file/specific to this demo. */
     xTaskCreate( vCheckTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
-	xTaskCreate( vLCDTask, "LCD", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
+//	xTaskCreate( vLCDTask, "LCD", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
 
 	/* The suicide tasks must be created last as they need to know how many
 	tasks were running prior to their creation in order to ascertain whether
 	or not the correct/expected number of tasks are running at any given time. */
-    vCreateSuicidalTasks( mainCREATOR_TASK_PRIORITY );
+//    vCreateSuicidalTasks( mainCREATOR_TASK_PRIORITY );
 
 	/* Configure the timers used by the fast interrupt timer test. */
 	vSetupTimerTest();
@@ -281,15 +281,16 @@ static void vCheckTask( void *pvParameters )
 {
 	
 TickType_t xLastExecutionTime;
-xLCDMessage xMessage;
+//xLCDMessage xMessage;
 static signed char cPassMessage[ mainMAX_MSG_LEN ];
 extern unsigned short usMaxJitter;
 
 	xLastExecutionTime = xTaskGetTickCount();
-	xMessage.pcMessage = cPassMessage;
+//	xMessage.pcMessage = cPassMessage;
 
     for( ;; )
 	{
+/*
 		// Perform this check every mainCHECK_DELAY milliseconds. 
 		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_DELAY );
 
@@ -330,6 +331,7 @@ extern unsigned short usMaxJitter;
 
 		// Send the message to the LCD gatekeeper for display. 
 		xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
+		*/
 	}
 
 }
@@ -439,8 +441,9 @@ static void prvConfigKeyboard(void)
 
 	/* Set the Backlight Pin 
 	GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_SET);
-}
 	*/
+}
+
 int fputc( int ch, FILE *f )
 {
 	/*
