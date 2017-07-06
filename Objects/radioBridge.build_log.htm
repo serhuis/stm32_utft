@@ -27,47 +27,10 @@ Project File Date:  07/06/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'rfBridge'
-compiling main.c...
-.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
-  #endif /* FREERTOS_CONFIG_H */
-src\main.c(248): warning:  #223-D: function "vSetupTimerTest" declared implicitly
-  	vSetupTimerTest();
-src\main.c(264): warning:  #9-D: nested comment is not allowed
-  	/* Initialise the LCD and display a startup message. 
-src\main.c(270): warning:  #9-D: nested comment is not allowed
-  		/* Wait for a message to arrive that requires displaying. 
-src\main.c(273): warning:  #9-D: nested comment is not allowed
-  		/* Display the message.  Print each message to a different position. 
-src\main.c(283): warning:  #550-D: variable "xLastExecutionTime" was set but never used
-  TickType_t xLastExecutionTime;
-src\main.c(285): warning:  #177-D: variable "cPassMessage" was declared but never referenced
-  static signed char cPassMessage[ mainMAX_MSG_LEN ];
-src\main.c(414): warning:  #9-D: nested comment is not allowed
-  	/* Set the Backlight Pin 
-src\main.c(417): warning:  #9-D: nested comment is not allowed
-  	/* Initialize the LCD 
-src\main.c(420): warning:  #9-D: nested comment is not allowed
-  	/* Set the Back Color 
-src\main.c(423): warning:  #9-D: nested comment is not allowed
-  	/* Set the Text Color 
-src\main.c(460): warning:  #9-D: nested comment is not allowed
-  		/* Display one character on LCD 
-src\main.c(463): warning:  #9-D: nested comment is not allowed
-  		/* Decrement the column position by 16 
-src\main.c(466): warning:  #9-D: nested comment is not allowed
-  		/* Increment the character counter 
-src\main.c(477): warning:  #9-D: nested comment is not allowed
-  		/* Move back to the first column of the next line. 
-src\main.c(483): warning:  #9-D: nested comment is not allowed
-  	/* Wrap back to the top of the display. 
-src\main.c(403): warning:  #177-D: function "prvConfigureLCD" was declared but never referenced
-  static void prvConfigureLCD( void )
-src\main.c(432): warning:  #177-D: function "prvConfigKeyboard" was declared but never referenced
-  static void prvConfigKeyboard(void)
-src\main.c: 18 warnings, 0 errors
+compiling timertest.c...
 linking...
-Program Size: Code=7676 RO-data=268 RW-data=108 ZI-data=12196  
-".\Objects\radioBridge.axf" - 0 Error(s), 18 Warning(s).
+Program Size: Code=7052 RO-data=268 RW-data=108 ZI-data=12196  
+".\Objects\radioBridge.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -79,16 +42,16 @@ Package Vendor: ARM
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.1.0.pack
-                Keil::Device:Startup:1.0.0
+                Keil::Device:StdPeriph Drivers:Framework:3.5.1
                 STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
-   * Component: Startup Version: 1.0.0
    * Component: Framework Version: 3.5.1
    * Component: DMA Version: 3.5.0
-   * Component: SPI Version: 3.5.0
-   * Component: USART Version: 3.5.0
-   * Component: RCC Version: 3.5.0
-   * Component: TIM Version: 3.5.0
+   * Component: Startup Version: 1.0.0
    * Component: GPIO Version: 3.5.0
+   * Component: RCC Version: 3.5.0
+   * Component: SPI Version: 3.5.0
+   * Component: TIM Version: 3.5.0
+   * Component: USART Version: 3.5.0
 
 <h2>Collection of Component include folders:</h2>
   E:\MY_Proj\stm32_tft\RTE
@@ -101,42 +64,42 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.0.0
 
-   * Component: Keil::Device:Startup:1.0.0
-      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
-      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
-      Include file:  RTE_Driver\Config\RTE_Device.h
-      Source file:   Device\Source\system_stm32f10x.c
-
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
-      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
-      Source file:   Device\StdPeriph_Driver\src\misc.c
       Include file:  Device\StdPeriph_Driver\inc\misc.h
+      Source file:   Device\StdPeriph_Driver\src\misc.c
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
       Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
+      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
 
    * Component: Keil::Device:StdPeriph Drivers:DMA:3.5.0
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_dma.h
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
 
-   * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
+   * Component: Keil::Device:Startup:1.0.0
+      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
+      Include file:  RTE_Driver\Config\RTE_Device.h
+      Source file:   Device\Source\system_stm32f10x.c
+      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
 
-   * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
+   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
 
-   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
+   * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
 
-   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
+   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
+
+   * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

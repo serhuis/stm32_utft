@@ -59,7 +59,7 @@ GPIO_InitTypeDef GPIO_InitStructure;
 
 void vKeysScankTask( void *pvParameters )
 {
-	xLastExecutionTime = xTaskGetTickCount();
+//	xLastExecutionTime = xTaskGetTickCount();
 	prvConfigKeyboard();
 	for( ;; )
 	{
@@ -166,4 +166,3 @@ void vLCDTask( void *pvParameters )
 */
 	}
 }
-/*-----------------------------------

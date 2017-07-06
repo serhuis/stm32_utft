@@ -114,7 +114,7 @@ void vSetupTimerTest( void )
 {
 unsigned long ulFrequency;
 TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-NVIC_InitTypeDef NVIC_InitStructure;
+//NVIC_InitTypeDef NVIC_InitStructure;
 
 
 	/* Enable timer clocks */

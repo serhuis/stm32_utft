@@ -29,3 +29,4 @@
 .\objects\main.o: .\freeRTOS\include\list.h
 .\objects\main.o: .\freeRTOS\include\queue.h
 .\objects\main.o: src\stm32f10x_it.h
+.\objects\main.o: src\ui.h
