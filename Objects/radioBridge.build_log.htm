@@ -1,0 +1,215 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.20.0.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: serhuis s, asdfghj, LIC=V859U-S1VIJ-49NG2-9BP0Y-ST45K-LM3B9
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.20
+Toolchain Path:  d:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 2 (build 183)
+Assembler:       Armasm.exe V5.06 update 2 (build 183)
+Linker/Locator:  ArmLink.exe V5.06 update 2 (build 183)
+Library Manager: ArmAr.exe V5.06 update 2 (build 183)
+Hex Converter:   FromElf.exe V5.06 update 2 (build 183)
+CPU DLL:         SARMCM3.DLL V5.20
+Dialog DLL:      DCM.DLL V1.13.7.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
+Dialog DLL:      TCM.DLL V1.14.9.0
+ 
+<h2>Project:</h2>
+D:\proj\radioBridge\radioBridge.uvprojx
+Project File Date:  05/31/2017
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 2 (build 183)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'rfBridge'
+compiling main.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+src\main.c(240): error:  #20: identifier "vLCDTask" is undefined
+        xTaskCreate( vLCDTask, "LCD", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
+src\main.c(245): warning:  #223-D: function "vCreateSuicidalTasks" declared implicitly
+      vCreateSuicidalTasks( mainCREATOR_TASK_PRIORITY );
+src\main.c(248): warning:  #223-D: function "vSetupTimerTest" declared implicitly
+        vSetupTimerTest();
+src\main.c(264): warning:  #9-D: nested comment is not allowed
+        /* Initialise the LCD and display a startup message. 
+src\main.c(270): warning:  #9-D: nested comment is not allowed
+                /* Wait for a message to arrive that requires displaying. 
+src\main.c(273): warning:  #9-D: nested comment is not allowed
+                /* Display the message.  Print each message to a different position. 
+src\main.c(284): error:  #20: identifier "xLCDMessage" is undefined
+  xLCDMessage xMessage;
+src\main.c(298): warning:  #223-D: function "xAreBlockingQueuesStillRunning" declared implicitly
+      if( xAreBlockingQueuesStillRunning() != pdTRUE )
+src\main.c(302): warning:  #223-D: function "xAreBlockTimeTestTasksStillRunning" declared implicitly
+                else if( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
+src\main.c(306): warning:  #223-D: function "xAreSemaphoreTasksStillRunning" declared implicitly
+      else if( xAreSemaphoreTasksStillRunning() != pdTRUE )
+src\main.c(310): warning:  #223-D: function "xArePollingQueuesStillRunning" declared implicitly
+      else if( xArePollingQueuesStillRunning() != pdTRUE )
+src\main.c(314): warning:  #223-D: function "xIsCreateTaskStillRunning" declared implicitly
+      else if( xIsCreateTaskStillRunning() != pdTRUE )
+src\main.c(318): warning:  #223-D: function "xAreIntegerMathsTaskStillRunning" declared implicitly
+      else if( xAreIntegerMathsTaskStillRunning() != pdTRUE )
+src\main.c(322): warning:  #223-D: function "xAreComTestTasksStillRunning" declared implicitly
+                else if( xAreComTestTasksStillRunning() != pdTRUE )
+src\main.c(412): warning:  #9-D: nested comment is not allowed
+        /* Set the Backlight Pin 
+src\main.c(415): warning:  #9-D: nested comment is not allowed
+        /* Initialize the LCD 
+src\main.c(418): warning:  #9-D: nested comment is not allowed
+        /* Set the Back Color 
+src\main.c(421): warning:  #9-D: nested comment is not allowed
+        /* Set the Text Color 
+src\main.c(445): warning:  #9-D: nested comment is not allowed
+        /*
+src\main.c(456): warning:  #9-D: nested comment is not allowed
+                /* Display one character on LCD 
+src\main.c(459): warning:  #9-D: nested comment is not allowed
+                /* Decrement the column position by 16 
+src\main.c(462): warning:  #9-D: nested comment is not allowed
+                /* Increment the character counter 
+src\main.c(473): warning:  #9-D: nested comment is not allowed
+                /* Move back to the first column of the next line. 
+src\main.c(479): warning:  #9-D: nested comment is not allowed
+        /* Wrap back to the top of the display. 
+src\main.c(485): error:  #118: a void function may not return a value
+        return ch;
+src\main.c(485): error:  #20: identifier "ch" is undefined
+        return ch;
+src\main.c(401): warning:  #177-D: function "prvConfigureLCD" was declared but never referenced
+  static void prvConfigureLCD( void )
+src\main.c(430): warning:  #177-D: function "prvConfigKeyboard" was declared but never referenced
+  static void prvConfigKeyboard(void)
+src\main.c: 25 warnings, 4 errors
+compiling timertest.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+src\timertest.c(117): warning:  #177-D: variable "NVIC_InitStructure" was declared but never referenced
+  NVIC_InitTypeDef NVIC_InitStructure;
+src\timertest.c: 2 warnings, 0 errors
+compiling croutine.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\croutine.c: 1 warning, 0 errors
+compiling event_groups.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\event_groups.c: 1 warning, 0 errors
+compiling list.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\list.c: 1 warning, 0 errors
+compiling port.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\port.c: 1 warning, 0 errors
+compiling queue.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\queue.c: 1 warning, 0 errors
+compiling tasks.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\tasks.c: 1 warning, 0 errors
+compiling timers.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\timers.c: 1 warning, 0 errors
+compiling heap_2.c...
+.\freeRTOS\include\FreeRTOSConfig.h(95): warning:  #1-D: last line of file ends without a newline
+  #endif /* FREERTOS_CONFIG_H */
+freeRTOS\heap_2.c: 1 warning, 0 errors
+compiling keys.c...
+src\keys.h(5): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\keys.c: 1 warning, 0 errors
+assembling startup_stm32f10x_md.s...
+compiling system_stm32f10x.c...
+compiling misc.c...
+compiling stm32f10x_dma.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_spi.c...
+compiling stm32f10x_tim.c...
+compiling stm32f10x_usart.c...
+".\Objects\radioBridge.axf" - 4 Error(s), 36 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.0.0.pack
+                ARM::CMSIS:CORE:5.0.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.0.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.1.0.pack
+                Keil::Device:Startup:1.0.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+   * Component: Startup Version: 1.0.0
+   * Component: GPIO Version: 3.5.0
+   * Component: SPI Version: 3.5.0
+   * Component: RCC Version: 3.5.0
+   * Component: TIM Version: 3.5.0
+   * Component: USART Version: 3.5.0
+   * Component: DMA Version: 3.5.0
+   * Component: Framework Version: 3.5.1
+
+<h2>Collection of Component include folders:</h2>
+  D:\proj\radioBridge\RTE
+  D:\proj\radioBridge\RTE\Device\STM32F103C8
+  d:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0\CMSIS\Include
+  d:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include
+  d:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\StdPeriph_Driver\inc
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.0.0
+
+   * Component: Keil::Device:Startup:1.0.0
+      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
+      Include file:  RTE_Driver\Config\RTE_Device.h
+      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
+      Source file:   Device\Source\system_stm32f10x.c
+
+   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
+
+   * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
+
+   * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
+
+   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
+
+   * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
+
+   * Component: Keil::Device:StdPeriph Drivers:DMA:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_dma.h
+
+   * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
+      Source file:   Device\StdPeriph_Driver\src\misc.c
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
+      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
+      Include file:  Device\StdPeriph_Driver\inc\misc.h
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
+Target not created.
+Build Time Elapsed:  00:01:51
+</pre>
+</body>
+</html>
