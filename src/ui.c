@@ -3,23 +3,28 @@
 #include "ui.h"
 
 
+#define LED_PORT		GPIOA
+#define LED_PIN			GPIO_Pin_1
+#define LedOn()			LED_PORT->BRR = GPIO_Pin_1
+#define LedOff()		LED_PORT->BSRR = GPIO_Pin_1
+#define LedToggle()	LED_PORT->ODR ^= GPIO_Pin_1
+
 static void prvConfigKeyboard(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 
 	
-	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB |RCC_APB2Periph_GPIOC
-							| RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE | RCC_APB2Periph_AFIO, ENABLE );
+	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA, ENABLE );
 	
 	// Configure LCD Back Light (PA8) as output push-pull 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+	GPIO_InitStructure.GPIO_Pin = LED_PIN;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init( GPIOA, &GPIO_InitStructure );
+	GPIO_Init( LED_PORT, &GPIO_InitStructure );
 
-	/* Set the Backlight Pin 
-	GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_SET);
-	*/
+	/* Set the Backlight Pin */
+	GPIO_WriteBit(LED_PORT, LED_PIN, Bit_SET);
+	
 }
 
 
@@ -39,16 +44,16 @@ GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_Init( GPIOA, &GPIO_InitStructure );
 
-	/* Set the Backlight Pin 
+	// Set the Backlight Pin 
 	GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_SET);
 
-	/* Initialize the LCD 
+	// Initialize the LCD 
 	LCD_Init();
 
-	/* Set the Back Color 
+	// Set the Back Color 
 	LCD_SetBackColor( White );
 
-	/* Set the Text Color 
+	// Set the Text Color 
 	LCD_SetTextColor( 0x051F );
 
 	LCD_Clear();
@@ -61,8 +66,12 @@ void vKeysScankTask( void *pvParameters )
 {
 //	xLastExecutionTime = xTaskGetTickCount();
 	prvConfigKeyboard();
+	LedOn();
+	LedOff();
 	for( ;; )
 	{
+		//LedToggle();
+		LedOn();
 /*
 		// Perform this check every mainCHECK_DELAY milliseconds. 
 		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_DELAY );
@@ -122,6 +131,7 @@ void vLCDTask( void *pvParameters )
 
 	for( ;; )
 	{
+		LedOff();
 /*
 		// Perform this check every mainCHECK_DELAY milliseconds. 
 		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_DELAY );
