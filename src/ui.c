@@ -23,7 +23,7 @@ static void prvConfigKeyboard(void)
 	GPIO_Init( LED_PORT, &GPIO_InitStructure );
 
 	/* Set the Backlight Pin */
-	GPIO_WriteBit(LED_PORT, LED_PIN, Bit_SET);
+	GPIO_WriteBit(LED_PORT, LED_PIN, Bit_RESET);
 	
 }
 
@@ -72,6 +72,7 @@ void vKeysScankTask( void *pvParameters )
 	{
 		//LedToggle();
 		LedOn();
+		vTaskDelay(pdMS_TO_TICKS(2000));
 /*
 		// Perform this check every mainCHECK_DELAY milliseconds. 
 		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_DELAY );
@@ -132,6 +133,8 @@ void vLCDTask( void *pvParameters )
 	for( ;; )
 	{
 		LedOff();
+		vTaskDelay(pdMS_TO_TICKS(2000));
+
 /*
 		// Perform this check every mainCHECK_DELAY milliseconds. 
 		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_DELAY );
