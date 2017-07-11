@@ -16,4 +16,15 @@
 .\objects\ui.o: d:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\StdPeriph_Driver\inc\stm32f10x_tim.h
 .\objects\ui.o: d:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 .\objects\ui.o: d:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\StdPeriph_Driver\inc\misc.h
+.\objects\ui.o: .\freeRTOS\include\FreeRTOS.h
+.\objects\ui.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\ui.o: .\freeRTOS\include\FreeRTOSConfig.h
+.\objects\ui.o: .\freeRTOS\include\projdefs.h
+.\objects\ui.o: .\freeRTOS\include\portable.h
+.\objects\ui.o: .\freeRTOS\include\deprecated_definitions.h
+.\objects\ui.o: .\freeRTOS\include\portmacro.h
+.\objects\ui.o: .\freeRTOS\include\mpu_wrappers.h
 .\objects\ui.o: src\ui.h
+.\objects\ui.o: .\freeRTOS\include\timers.h
+.\objects\ui.o: .\freeRTOS\include\task.h
+.\objects\ui.o: .\freeRTOS\include\list.h
