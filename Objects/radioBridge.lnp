@@ -20,6 +20,7 @@
 ".\objects\stm32f10x_spi.o"
 ".\objects\stm32f10x_tim.o"
 ".\objects\stm32f10x_usart.o"
+".\objects\gpio_stm32f10x.o"
 --strict --scatter ".\Objects\radioBridge.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -1,5 +1,6 @@
 //ui.c
 #include "stm32f10x.h"
+#include "GPIO_STM32F10x.h"
 #include "FreeRTOS.h"
 #include "ui.h"
 #include "timers.h"
@@ -53,8 +54,10 @@ static void prvConfigKeyboard(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
 	GPIO_Init( KEYS_PORT, &GPIO_InitStructure );
 	
-	KEYS_PORT->BRR |= GPIO_Pin_8|GPIO_Pin_10|GPIO_Pin_12|GPIO_Pin_14;
+	GPIO_AFConfigure(AFIO_SWJ_JTAG_NO_SW);
 	
+	KEYS_PORT->BRR |= GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6;
+		
 	
 	
 	/* Set the Backlight Pin */
@@ -105,48 +108,6 @@ void vKeysScankTask( void *pvParameters )
 	for( ;; )
 	{
 
-/*
-		// Perform this check every mainCHECK_DELAY milliseconds. 
-		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_DELAY );
-
-		// Has an error been found in any task? 
-
-    if( xAreBlockingQueuesStillRunning() != pdTRUE )
-		{
-			xMessage.pcMessage = "ERROR IN BLOCK Q\n";
-		}
-		else if( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
-		{
-			xMessage.pcMessage = "ERROR IN BLOCK TIME\n";
-		}
-    else if( xAreSemaphoreTasksStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN SEMAPHORE\n";
-    }
-    else if( xArePollingQueuesStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN POLL Q\n";
-    }
-    else if( xIsCreateTaskStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN CREATE\n";
-    }
-    else if( xAreIntegerMathsTaskStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN MATH\n";
-    }
-		else if( xAreComTestTasksStillRunning() != pdTRUE )
-		{
-			xMessage.pcMessage = "ERROR IN COM TEST\n";
-		}
-		else
-		{
-			sprintf( ( char * ) cPassMessage, "PASS [%uns]\n", ( ( unsigned long ) usMaxJitter ) * mainNS_PER_CLOCK );
-		}
-
-		// Send the message to the LCD gatekeeper for display. 
-		xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
-*/
 	}
 
 }
@@ -166,57 +127,35 @@ void vLCDTask( void *pvParameters )
 	for( ;; )
 	{
 
-/*
-		// Perform this check every mainCHECK_DELAY milliseconds. 
-		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_DELAY );
 
-		// Has an error been found in any task? 
-
-    if( xAreBlockingQueuesStillRunning() != pdTRUE )
-		{
-			xMessage.pcMessage = "ERROR IN BLOCK Q\n";
-		}
-		else if( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
-		{
-			xMessage.pcMessage = "ERROR IN BLOCK TIME\n";
-		}
-    else if( xAreSemaphoreTasksStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN SEMAPHORE\n";
-    }
-    else if( xArePollingQueuesStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN POLL Q\n";
-    }
-    else if( xIsCreateTaskStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN CREATE\n";
-    }
-    else if( xAreIntegerMathsTaskStillRunning() != pdTRUE )
-    {
-        xMessage.pcMessage = "ERROR IN MATH\n";
-    }
-		else if( xAreComTestTasksStillRunning() != pdTRUE )
-		{
-			xMessage.pcMessage = "ERROR IN COM TEST\n";
-		}
-		else
-		{
-			sprintf( ( char * ) cPassMessage, "PASS [%uns]\n", ( ( unsigned long ) usMaxJitter ) * mainNS_PER_CLOCK );
-		}
-
-		// Send the message to the LCD gatekeeper for display. 
-		xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
-*/
 	}
 }
 #define KEY_ROWS						4
 #define KEY_COLUMNS					4
 #define	KEY_OUT_MASK				GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6
-#define	KEY_IN_MASK					GPIO_Pin_8|GPIO_Pin_10|GPIO_Pin_12|GPIO_Pin_14
+#define	KEY_IN_MASK					(GPIO_Pin_8|GPIO_Pin_10|GPIO_Pin_12|GPIO_Pin_14) >> 8
+
+#define KEY_CODE_1		  0x01
+#define KEY_CODE_2		  0x04
+#define KEY_CODE_3		  0x10
+#define KEY_CODE_4		  0x01
+#define KEY_CODE_5		  0x04
+#define KEY_CODE_6		  0x10
+#define KEY_CODE_7		  0x01
+#define KEY_CODE_8		  0x04
+#define KEY_CODE_9		  0x10
+#define KEY_CODE_0		  0x04
+#define KEY_CODE_A		  0x40
+#define KEY_CODE_B		  0x40
+#define KEY_CODE_C			0x40
+#define KEY_CODE_D			0x40
+#define KEY_CODE_STAR		0x01
+#define KEY_CODE_HASH		0x10
+
+
 
 u16 KeyOutPins[] = {GPIO_Pin_0, GPIO_Pin_2, GPIO_Pin_4, GPIO_Pin_6};
-u16 KeysPressed[KEY_ROWS] = {0};
+u8 KeysPressed[KEY_ROWS] = {0};
 
 void KeyScan( TimerHandle_t xTimer )
 {
@@ -227,6 +166,11 @@ void KeyScan( TimerHandle_t xTimer )
 		KEYS_PORT->BRR  |= GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6;
 		KEYS_PORT->BSRR |= KeyOutPins[r];
 		
-		KeysPressed[r] = KEYS_PORT->IDR & KEY_IN_MASK;
+		KeysPressed[r] = (KEYS_PORT->IDR >> 8) & 0xFF;// & 0xFF00;
+		KeysPressed[r] &= KEY_IN_MASK;
 	}
+	
+	
+	
 }
+
