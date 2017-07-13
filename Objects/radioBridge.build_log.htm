@@ -28,11 +28,12 @@ Project File Date:  07/12/2017
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'rfBridge'
 compiling ui.c...
-src\ui.c(169): warning:  #1-D: last line of file ends without a newline
-  #define KEY_CODE_HASH		0x10
+src\ui.c(160): warning:  #188-D: enumerated type mixed with another type
+  key_t Key[
+EY_NUM] = {0};
 src\ui.c: 1 warning, 0 errors
 linking...
-Program Size: Code=8004 RO-data=268 RW-data=120 ZI-data=12192  
+Program Size: Code=8116 RO-data=268 RW-data=120 ZI-data=12320  
 ".\Objects\radioBridge.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -51,11 +52,11 @@ Package Vendor: Keil
    * Component: DMA Version: 3.5.0
    * Component: Startup Version: 1.0.0
    * Component: TIM Version: 3.5.0
-   * Component: RCC Version: 3.5.0
-   * Component: GPIO Version: 1.2
    * Component: USART Version: 3.5.0
-   * Component: SPI Version: 3.5.0
    * Component: GPIO Version: 3.5.0
+   * Component: SPI Version: 3.5.0
+   * Component: GPIO Version: 1.2
+   * Component: RCC Version: 3.5.0
 
 <h2>Collection of Component include folders:</h2>
   G:\My_proj\stm32_tft\RTE
@@ -70,46 +71,46 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.0.0
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
-      Source file:   Device\StdPeriph_Driver\src\misc.c
-      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
-      Include file:  Device\StdPeriph_Driver\inc\misc.h
       Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
       Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
+      Include file:  Device\StdPeriph_Driver\inc\misc.h
+      Source file:   Device\StdPeriph_Driver\src\misc.c
+      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
 
    * Component: Keil::Device:StdPeriph Drivers:DMA:3.5.0
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_dma.h
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
 
    * Component: Keil::Device:Startup:1.0.0
-      Include file:  RTE_Driver\Config\RTE_Device.h
-      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
       Source file:   Device\Source\system_stm32f10x.c
+      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
       Source file:   Device\Source\ARM\STM32F1xx_OPT.s
+      Include file:  RTE_Driver\Config\RTE_Device.h
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
 
-   * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
-
-   * Component: Keil::Device:GPIO:1.2
-      Include file:  RTE_Driver\GPIO_STM32F10x.h
-      Source file:   RTE_Driver\GPIO_STM32F10x.c
-
    * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
+
+   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
 
    * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
 
-   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
-Build Time Elapsed:  00:00:01
+   * Component: Keil::Device:GPIO:1.2
+      Source file:   RTE_Driver\GPIO_STM32F10x.c
+      Include file:  RTE_Driver\GPIO_STM32F10x.h
+
+   * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

@@ -132,6 +132,7 @@ void vLCDTask( void *pvParameters )
 }
 #define KEY_ROWS						4
 #define KEY_COLUMNS					4
+#define KEY_NUM					KEY_ROWS*KEY_COLUMNS
 #define	KEY_OUT_MASK				GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6
 #define	KEY_IN_MASK					(GPIO_Pin_8|GPIO_Pin_10|GPIO_Pin_12|GPIO_Pin_14) >> 8
 
@@ -156,10 +157,11 @@ void vLCDTask( void *pvParameters )
 
 u16 KeyOutPins[] = {GPIO_Pin_0, GPIO_Pin_2, GPIO_Pin_4, GPIO_Pin_6};
 u8 KeysPressed[KEY_ROWS] = {0};
+key_t Key[KEY_NUM] = {0};
 
 void KeyScan( TimerHandle_t xTimer )
 {
-	u8 r;
+	u8 r, c, mask;
 	LedToggle();
 	for(r = 0; r < KEY_ROWS; ++r)
 	{
@@ -168,9 +170,23 @@ void KeyScan( TimerHandle_t xTimer )
 		
 		KeysPressed[r] = (KEYS_PORT->IDR >> 8) & 0xFF;// & 0xFF00;
 		KeysPressed[r] &= KEY_IN_MASK;
+		
+		for(c=0; c < KEY_COLUMNS; ++c)
+		{
+//			mask = 1<<(c<<1);
+			if((/*mask*/ 1<<(c<<1)) & KeysPressed[r])
+			{
+				if(KeyDown == Key[(r<<2) + (c)].Status )
+					Key[(r<<2) + (c)].Timer++;
+				else
+				{
+					Key[(r<<2) + (c)].Status = KeyDown;
+					Key[(r<<2) + (c)].Timer = 0;
+				}
+			}
+			else
+				Key[(r<<2) + (c)].Status = KeyUp;
+		}
 	}
-	
-	
-	
 }
 

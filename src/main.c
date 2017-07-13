@@ -360,7 +360,7 @@ static unsigned char ucLine = 0;
 		usColumn = 0;
 	}
 
-	/* Wrap back to the top of the display. 
+	// Wrap back to the top of the display. 
 	if( ucLine >= mainMAX_LINE )
 	{
 		ucLine = 0;
