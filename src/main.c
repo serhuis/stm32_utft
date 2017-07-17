@@ -171,12 +171,12 @@ information. */
 /*
  * Configure the clocks, GPIO and other peripherals as required by the demo.
  */
-static void prvSetupHardware( void );
+static void prvSetupSysClock( void );
 
 /*
  * Configure the LCD as required by the demo.
  */
-static void prvConfigureLCD( void );
+//static void prvConfigureLCD( void );
 
 /*
  * The LCD is written two by more than one task so is controlled by a
@@ -186,10 +186,6 @@ static void prvConfigureLCD( void );
  */
 //static void vLCDTask( void *pvParameters );
 
-/*
- * Retargets the C library printf function to the USART.
- */
-int fputc( int ch, FILE *f );
 
 /*
  * Checks the status of all the demo tasks then prints a message to the
@@ -212,17 +208,16 @@ int fputc( int ch, FILE *f );
 /*-----------------------------------------------------------*/
 
 /* The queue used to send messages to the LCD task. */
-QueueHandle_t xLCDQueue;
-
 /*-----------------------------------------------------------*/
-
+TaskHandle_t xKeyTaskHandle = NULL;
+extern volatile QueueHandle_t xKeyQueue;
 int main( void )
 {
 #ifdef DEBUG
   debug();
 #endif
 
-	prvSetupHardware();
+	prvSetupSysClock();
 
 	/* Create the queue used by the LCD task.  Messages for display on the LCD
 	are received via this queue. */
@@ -238,7 +233,7 @@ int main( void )
 //	vAltStartComTestTasks( mainCOM_TEST_PRIORITY, mainCOM_TEST_BAUD_RATE, mainCOM_TEST_LED );
 
 	/* Start the tasks defined within this file/specific to this demo. */
-    xTaskCreate( vKeysScankTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
+  xTaskCreate( vKeysScankTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, &xKeyTaskHandle );
 	xTaskCreate( vLCDTask, "LCD", configMINIMAL_STACK_SIZE, NULL, mainFLASH_TASK_PRIORITY, NULL );
 
 	/* The suicide tasks must be created last as they need to know how many
@@ -252,8 +247,7 @@ int main( void )
 	/* Start the scheduler. */
 	vTaskStartScheduler();
 
-	/* Will only get here if there was not enough heap space to create the
-	idle task. */
+	/* Will only get here if there was not enough heap space to create the idle task. */
 	return 0;
 }
 
@@ -263,7 +257,9 @@ void vStMotorTask( void *pvParameters )
 {
 	
 }
-static void prvSetupHardware( void )
+
+
+static void prvSetupSysClock( void )
 {
 	/* Start with the clocks in their expected state. */
 	RCC_DeInit();
@@ -323,7 +319,10 @@ static void prvSetupHardware( void )
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
-
+/*
+ * Retargets the C library printf function to the USART.
+ */
+int fputc( int ch, FILE *f );
 int fputc( int ch, FILE *f )
 {
 	/*

@@ -22,10 +22,9 @@ typedef struct
 {
 	key_stat_t 	Status;
 	u16	Timer;
-	KeyFunc_t		CallBackFunc;
 }key_t;
 
-static void prvConfigureLCD( void );
+//static void prvConfigureLCD( void );
 void vLCDTask( void *pvParameters );
 void vKeysScankTask( void *pvParameters);
 

@@ -30,3 +30,4 @@
 .\objects\ui.o: .\freeRTOS\include\timers.h
 .\objects\ui.o: .\freeRTOS\include\task.h
 .\objects\ui.o: .\freeRTOS\include\list.h
+.\objects\ui.o: .\freeRTOS\include\queue.h
