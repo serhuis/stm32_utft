@@ -25,9 +25,14 @@ void LedToggle(void* param)
 {
 	LED_PORT->ODR ^= GPIO_Pin_1;
 }
+void NopFunc(void* param)
+{
+	__NOP();
+}
 
 extern TaskHandle_t xKeyTaskHandle;
 static void KeyScan( TimerHandle_t xTimer );
+
 static void prvConfigLed(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -45,9 +50,6 @@ static void prvConfigLed(void)
 	LedOff(NULL);
 	
 }
-
-
-
 
 #define KEYS_PORT		GPIOB
 static void prvConfigKeyboard(void)
@@ -71,11 +73,6 @@ static void prvConfigKeyboard(void)
 	GPIO_AFConfigure(AFIO_SWJ_JTAG_NO_SW);
 	
 	KEYS_PORT->BRR |= GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6;
-		
-	
-	
-	/* Set the Backlight Pin */
-
 }
 
 
@@ -119,36 +116,19 @@ GPIO_InitTypeDef GPIO_InitStructure;
 #define KEY_SCAN_PERIOD			10			//ms
 #define KEY_SHORT_PRESSED		2				// * KEY_SCAN_PERIOD
 #define KEY_LONG_PRESSED		500				// * KEY_SCAN_PERIOD
-/*
-#define KEY_CODE_1		  		0x01
-#define KEY_CODE_2		  		0x04
-#define KEY_CODE_3		  		0x10
-#define KEY_CODE_4		  		0x01
-#define KEY_CODE_5		  		0x04
-#define KEY_CODE_6		  		0x10
-#define KEY_CODE_7		  		0x01
-#define KEY_CODE_8		  		0x04
-#define KEY_CODE_9		  		0x10
-#define KEY_CODE_0		  		0x04
-#define KEY_CODE_A		  		0x40
-#define KEY_CODE_B		  		0x40
-#define KEY_CODE_C					0x40
-#define KEY_CODE_D					0x40
-#define KEY_CODE_STAR				0x01
-#define KEY_CODE_HASH				0x10
-*/
+
 u16 KeyOutPins[] = {GPIO_Pin_0, GPIO_Pin_2, GPIO_Pin_4, GPIO_Pin_6};
 u8 KeysPressed[KEY_ROWS] = {0};
 key_t Key[KEY_NUM] = {KeyUndefined};
-KeyFunc_t		keyShortAction[KEY_NUM] = {LedOn, LedOff, LedOff, 0};
-KeyFunc_t		keyLongAction[KEY_NUM] = {LedOff, LedOff, LedOff, 0};
-KeyFunc_t		keyUpAction[KEY_NUM] = {LedToggle, LedOff, LedToggle, 0};
+KeyFunc_t		keyShortAction[KEY_NUM] = {LedOn, LedOff, LedOff, __NOP,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
+KeyFunc_t		keyLongAction[KEY_NUM] = 	{LedOff, LedOff, LedOff, NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
+KeyFunc_t		keyUpAction[KEY_NUM] = 		{LedToggle, LedOff, LedToggle, NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
 
 
 static void KeyScan( TimerHandle_t xTimer )
 {
 	u8 r, c;
-//	LedToggle();
+
 	for(r = 0; r < KEY_ROWS; ++r)
 	{
 		KEYS_PORT->BRR  |= GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6;
@@ -178,20 +158,18 @@ static void KeyScan( TimerHandle_t xTimer )
 }
 
 volatile QueueHandle_t xKeyQueue;
+
 /*----------------- TASKS -----------------------------------*/
 void vKeysTask( void *pvParameters )
 {
-//	key_stat_t 	prevKeyStatus[KEY_NUM] = {0};
 	u8 k;
-	
 	TimerHandle_t tmrKeyScan;
 
-//	xLastExecutionTime = xTaskGetTickCount();
-//	InitKeyboard(keyboard);
 	prvConfigKeyboard();
-	tmrKeyScan = xTimerCreate("timerKeyScan", pdMS_TO_TICKS(KEY_SCAN_PERIOD), pdTRUE, ( void * ) 0, KeyScan);
 
+	tmrKeyScan = xTimerCreate("timerKeyScan", pdMS_TO_TICKS(KEY_SCAN_PERIOD), pdTRUE, ( void * ) 0, KeyScan);
 	xTimerStart(tmrKeyScan, pdMS_TO_TICKS(KEY_SCAN_PERIOD));
+
 	for( ;; )
 	{
 		for(k=0; k < KEY_NUM ; ++k)
