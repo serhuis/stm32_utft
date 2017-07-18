@@ -233,7 +233,7 @@ int main( void )
 //	vAltStartComTestTasks( mainCOM_TEST_PRIORITY, mainCOM_TEST_BAUD_RATE, mainCOM_TEST_LED );
 
 	/* Start the tasks defined within this file/specific to this demo. */
-  xTaskCreate( vKeysScankTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, &xKeyTaskHandle );
+  xTaskCreate( vKeysTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, &xKeyTaskHandle );
 	xTaskCreate( vLCDTask, "LCD", configMINIMAL_STACK_SIZE, NULL, mainFLASH_TASK_PRIORITY, NULL );
 
 	/* The suicide tasks must be created last as they need to know how many

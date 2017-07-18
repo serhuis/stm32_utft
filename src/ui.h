@@ -26,6 +26,6 @@ typedef struct
 
 //static void prvConfigureLCD( void );
 void vLCDTask( void *pvParameters );
-void vKeysScankTask( void *pvParameters);
+void vKeysTask( void *pvParameters);
 
 #endif
