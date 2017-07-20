@@ -11,6 +11,8 @@
 ".\objects\timers.o"
 ".\objects\heap_2.o"
 ".\objects\keys.o"
+".\objects\adafruit_gfx.o"
+".\objects\glcdfont.o"
 ".\objects\startup_stm32f10x_md.o"
 ".\objects\system_stm32f10x.o"
 ".\objects\misc.o"

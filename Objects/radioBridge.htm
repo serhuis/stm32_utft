@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\radioBridge.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\radioBridge.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Tue Jul 18 10:37:56 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Thu Jul 20 16:02:46 2017
 <BR><P>
 <H3>Maximum Stack Usage =        240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -101,8 +101,8 @@ Function Pointers
 Global Symbols
 </H3>
 <P><STRONG><a name="[44]"></a>__main</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, __main.o(!!!main))
-<BR><BR>[Calls]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
-<LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+<BR><BR>[Calls]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+<LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
 </UL>
 
 <P><STRONG><a name="[45]"></a>__scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter))
@@ -188,8 +188,8 @@ Global Symbols
 <P><STRONG><a name="[d2]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000C))
 
 <P><STRONG><a name="[46]"></a>__rt_entry</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry.o(.ARM.Collect$$rtentry$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
-<LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<BR><BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
 </UL>
 
 <P><STRONG><a name="[d3]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000002))
@@ -549,7 +549,7 @@ Global Symbols
 <P><STRONG><a name="[6]"></a>LedToggle</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, ui.o(i.LedToggle))
 <BR>[Address Reference Count : 1]<UL><LI> ui.o(.data)
 </UL>
-<P><STRONG><a name="[5]"></a>NopFunc</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, ui.o(i.NopFunc))
+<P><STRONG><a name="[5]"></a>NopFunc</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, ui.o(i.NopFunc))
 <BR>[Address Reference Count : 1]<UL><LI> ui.o(.data)
 </UL>
 <P><STRONG><a name="[77]"></a>RCC_APB2PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd))

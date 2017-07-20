@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\freeRTOS\include</IncludePath>
+              <IncludePath>.\freeRTOS\include;.\Adafruit_GFX_Library</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -441,6 +441,26 @@
               <FileName>keys.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\keys.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lcd</GroupName>
+          <Files>
+            <File>
+              <FileName>Adafruit_GFX.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Adafruit_GFX_Library\Adafruit_GFX.c</FilePath>
+            </File>
+            <File>
+              <FileName>glcdfont.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Adafruit_GFX_Library\glcdfont.c</FilePath>
+            </File>
+            <File>
+              <FileName>MCUFRIEND_kbv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\MCUFRIEND_kbv\MCUFRIEND_kbv.c</FilePath>
             </File>
           </Files>
         </Group>

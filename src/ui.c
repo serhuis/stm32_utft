@@ -27,7 +27,7 @@ void LedToggle(void* param)
 }
 void NopFunc(void* param)
 {
-	__NOP();
+	;
 }
 
 extern TaskHandle_t xKeyTaskHandle;
@@ -120,7 +120,7 @@ GPIO_InitTypeDef GPIO_InitStructure;
 u16 KeyOutPins[] = {GPIO_Pin_0, GPIO_Pin_2, GPIO_Pin_4, GPIO_Pin_6};
 u8 KeysPressed[KEY_ROWS] = {0};
 key_t Key[KEY_NUM] = {KeyUndefined};
-KeyFunc_t		keyShortAction[KEY_NUM] = {LedOn, LedOff, LedOff, __NOP,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
+KeyFunc_t		keyShortAction[KEY_NUM] = {LedOn, LedOff, LedOff, NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
 KeyFunc_t		keyLongAction[KEY_NUM] = 	{LedOff, LedOff, LedOff, NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
 KeyFunc_t		keyUpAction[KEY_NUM] = 		{LedToggle, LedOff, LedToggle, NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
 

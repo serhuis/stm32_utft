@@ -27,17 +27,85 @@ Project File Date:  07/12/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'rfBridge'
-compiling ui.c...
-src\ui.c(123): warning:  #144-D: a value of type "void (*)(void)" cannot be used to initialize an entity of type "KeyFunc_t"
-  KeyFunc_t		keyShortAction[
-EY_NUM] = {LedOn, LedOff, LedOff, 
-_NOP,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc,NopFunc};
-src\ui.c: 1 warning, 0 errors
-linking...
-.\Objects\radioBridge.axf: Error: L6218E: Undefined symbol __nop (referred from ui.o).
-Not enough information to list image symbols.
-Finished: 1 information, 0 warning and 1 error messages.
-".\Objects\radioBridge.axf" - 1 Error(s), 1 Warning(s).
+compiling MCUFRIEND_kbv.c...
+MCUFRIEND_kbv\utility/pin_shield_1.h(15): warning:  #47-D: incompatible redefinition of macro "__CC_ARM"
+  #define __CC_ARM
+MCUFRIEND_kbv\utility/pin_shield_8.h(19): warning:  #1215-D: #warning directive: Uno Shield on MY_BLUEPILL_ADAPTER
+  #warning Uno Shield on MY_BLUEPILL_ADAPTER
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(60): error:  #169: expected a declaration
+  {
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(77): warning:  #61-D: integer operation result is out of range
+      
+TL_INIT();
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(77): warning:  #61-D: integer operation result is out of range
+      
+TL_INIT();
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(114): warning:  #260-D: explicit type is missing ("int" assumed)
+  static inline void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(114): error:  #65: expected a ";"
+  static inline void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(197): warning:  #12-D: parsing restarts here after previous syntax error
+  	ret = readReg40(0xBF);
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(198): error:  #169: expected a declaration
+  	if (ret == 0x8357)          //HX8357B: [xx 01 62 83 57 FF]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(200): error:  #169: expected a declaration
+  	if (ret == 0x9481)          //ILI9481: [xx 02 04 94 81 FF]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(202): error:  #169: expected a declaration
+      if (ret == 0x1511)          //?R61511: [xx 02 04 15 11] not tested yet
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(204): error:  #169: expected a declaration
+      if (ret == 0x1520)          //?R61520: [xx 01 22 15 20]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(206): error:  #169: expected a declaration
+      if (ret == 0x1526)          //?R61526: [xx 01 22 15 26]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(208): error:  #169: expected a declaration
+      if (ret == 0x1581)          //R61581:  [xx 01 22 15 81]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(210): error:  #169: expected a declaration
+      if (ret == 0x1400)          //?RM68140:[xx FF 68 14 00] not tested yet
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(212): error:  #77-D: this declaration has no storage class or type specifier
+      ret = readReg32(0xD4);
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(212): error:  #20: identifier "readReg32" is undefined
+      ret = readReg32(0xD4);
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(212): error:  #59: function call is not allowed in a constant expression
+      ret = readReg32(0xD4);
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(213): error:  #169: expected a declaration
+      if (ret == 0x5310)          //NT35310: [xx 01 53 10]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #77-D: this declaration has no storage class or type specifier
+      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #148: variable "ret" has already been initialized
+      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #20: identifier "readReg40" is undefined
+      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #59: function call is not allowed in a constant expression
+      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(216): error:  #169: expected a declaration
+      if (ret == 0x9327)
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(218): error:  #59: function call is not allowed in a constant expression
+      uint32_t ret32 = readReg32(0x04);
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(219): error:  #77-D: this declaration has no storage class or type specifier
+      msb = ret32 >> 16;
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(219): error:  #28: expression must have a constant value
+      msb = ret32 >> 16;
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(220): error:  #77-D: this declaration has no storage class or type specifier
+      ret = ret32;	
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(220): error:  #148: variable "ret" has already been initialized
+      ret = ret32;	
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(220): error:  #28: expression must have a constant value
+      ret = ret32;	
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(222): error:  #169: expected a declaration
+      if (msb == 0x00 && ret == 0x8000) { //HX8357-D [xx 00 80 00]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(234): warning:  #12-D: parsing restarts here after previous syntax error
+          return 0x1526;          //subsequent begin() enables Command Access
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(235): error:  #169: expected a declaration
+  	if (ret == 0x8552)          //ST7789V: [xx 85 85 52]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(237): error:  #169: expected a declaration
+      if (ret == 0xAC11)          //?unknown [xx 61 AC 11]
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(239): error:  #77-D: this declaration has no storage class or type specifier
+      ret = readReg32(0xD3);      //for ILI9488, 9486, 9340, 9341
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(239): error:  #148: variable "ret" has already been initialized
+      ret = readReg32(0xD3);      //for ILI9488, 9486, 9340, 9341
+MCUFRIEND_kbv\MCUFRIEND_kbv.c(239): error:  #59: function call is not allowed in a constant expression
+      ret = readReg32(0xD3);      //for ILI9488, 9486, 9340, 9341
+MCUFRIEND_kbv\MCUFRIEND_kbv.c: 9 warnings, 30 errors
+".\Objects\radioBridge.axf" - 30 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -52,14 +120,14 @@ Package Vendor: Keil
                 Keil::Device:StdPeriph Drivers:Framework:3.5.1
                 STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
    * Component: Framework Version: 3.5.1
-   * Component: DMA Version: 3.5.0
    * Component: Startup Version: 1.0.0
-   * Component: TIM Version: 3.5.0
-   * Component: USART Version: 3.5.0
-   * Component: GPIO Version: 1.2
-   * Component: SPI Version: 3.5.0
-   * Component: RCC Version: 3.5.0
+   * Component: DMA Version: 3.5.0
    * Component: GPIO Version: 3.5.0
+   * Component: USART Version: 3.5.0
+   * Component: TIM Version: 3.5.0
+   * Component: RCC Version: 3.5.0
+   * Component: SPI Version: 3.5.0
+   * Component: GPIO Version: 1.2
 
 <h2>Collection of Component include folders:</h2>
   G:\My_proj\stm32_tft\RTE
@@ -74,47 +142,47 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.0.0
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
-      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
-      Include file:  Device\StdPeriph_Driver\inc\misc.h
-      Source file:   Device\StdPeriph_Driver\src\misc.c
       Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
-
-   * Component: Keil::Device:StdPeriph Drivers:DMA:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_dma.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
+      Source file:   Device\StdPeriph_Driver\src\misc.c
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
+      Include file:  Device\StdPeriph_Driver\inc\misc.h
+      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
 
    * Component: Keil::Device:Startup:1.0.0
-      Source file:   Device\Source\system_stm32f10x.c
-      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
-      Include file:  RTE_Driver\Config\RTE_Device.h
       Source file:   Device\Source\ARM\STM32F1xx_OPT.s
+      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
+      Source file:   Device\Source\system_stm32f10x.c
+      Include file:  RTE_Driver\Config\RTE_Device.h
 
-   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
+   * Component: Keil::Device:StdPeriph Drivers:DMA:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_dma.h
+
+   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
 
    * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 
-   * Component: Keil::Device:GPIO:1.2
-      Source file:   RTE_Driver\GPIO_STM32F10x.c
-      Include file:  RTE_Driver\GPIO_STM32F10x.h
-
-   * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
+   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
 
-   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
+   * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
+
+   * Component: Keil::Device:GPIO:1.2
+      Include file:  RTE_Driver\GPIO_STM32F10x.h
+      Source file:   RTE_Driver\GPIO_STM32F10x.c
 Target not created.
-Build Time Elapsed:  00:01:15
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
