@@ -458,9 +458,14 @@
               <FilePath>.\Adafruit_GFX_Library\glcdfont.c</FilePath>
             </File>
             <File>
-              <FileName>MCUFRIEND_kbv.c</FileName>
+              <FileName>MCUFRIEND_kbv.c.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\MCUFRIEND_kbv\MCUFRIEND_kbv.c.txt</FilePath>
+            </File>
+            <File>
+              <FileName>tft_lcd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\MCUFRIEND_kbv\MCUFRIEND_kbv.c</FilePath>
+              <FilePath>.\src\tft_lcd.c</FilePath>
             </File>
           </Files>
         </Group>

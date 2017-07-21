@@ -22,90 +22,89 @@ Dialog DLL:      TCM.DLL V1.14.9.0
  
 <h2>Project:</h2>
 G:\My_proj\stm32_tft\radioBridge.uvprojx
-Project File Date:  07/12/2017
+Project File Date:  07/20/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'rfBridge'
-compiling MCUFRIEND_kbv.c...
-MCUFRIEND_kbv\utility/pin_shield_1.h(15): warning:  #47-D: incompatible redefinition of macro "__CC_ARM"
-  #define __CC_ARM
-MCUFRIEND_kbv\utility/pin_shield_8.h(19): warning:  #1215-D: #warning directive: Uno Shield on MY_BLUEPILL_ADAPTER
-  #warning Uno Shield on MY_BLUEPILL_ADAPTER
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(60): error:  #169: expected a declaration
-  {
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(77): warning:  #61-D: integer operation result is out of range
-      
-TL_INIT();
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(77): warning:  #61-D: integer operation result is out of range
-      
-TL_INIT();
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(114): warning:  #260-D: explicit type is missing ("int" assumed)
+compiling tft_lcd.c...
+src\tft_lcd.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\tft_lcd.c(9): error:  #20: identifier "done_reset" is undefined
+      done_reset = 1;
+src\tft_lcd.c(10): warning:  #223-D: function "setWriteDir" declared implicitly
+      setWriteDir();
+src\tft_lcd.c(11): warning:  #223-D: function "CTL_INIT" declared implicitly
+      CTL_INIT();
+src\tft_lcd.c(12): error:  #20: identifier "CS_IDLE" is undefined
+      CS_IDLE;
+src\tft_lcd.c(13): error:  #20: identifier "RD_IDLE" is undefined
+      RD_IDLE;
+src\tft_lcd.c(14): error:  #20: identifier "WR_IDLE" is undefined
+      WR_IDLE;
+src\tft_lcd.c(15): error:  #20: identifier "RESET_IDLE" is undefined
+      RESET_IDLE;
+src\tft_lcd.c(16): warning:  #223-D: function "delay" declared implicitly
+      delay(50);
+src\tft_lcd.c(17): error:  #20: identifier "RESET_ACTIVE" is undefined
+      RESET_ACTIVE;
+src\tft_lcd.c(21): warning:  #223-D: function "WriteCmdData" declared implicitly
+  	WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
+src\tft_lcd.c(26): error:  #20: identifier "CS_ACTIVE" is undefined
+      CS_ACTIVE;
+src\tft_lcd.c(27): warning:  #223-D: function "WriteCmd" declared implicitly
+      WriteCmd(cmd);
+src\tft_lcd.c(28): warning:  #223-D: function "WriteData" declared implicitly
+      WriteData(dat);
+src\tft_lcd.c(29): error:  #20: identifier "CS_IDLE" is undefined
+      CS_IDLE;
+src\tft_lcd.c(34): error:  #20: identifier "CS_ACTIVE" is undefined
+      CS_ACTIVE;
+src\tft_lcd.c(35): warning:  #223-D: function "WriteCmd" declared implicitly
+      WriteCmd(cmd);
+src\tft_lcd.c(38): error:  #20: identifier "CD_DATA" is undefined
+          CD_DATA;
+src\tft_lcd.c(39): warning:  #223-D: function "write8" declared implicitly
+          write8(u8);
+src\tft_lcd.c(40): error:  #20: identifier "is8347" is undefined
+          if (N && is8347) {
+src\tft_lcd.c(45): error:  #20: identifier "CS_IDLE" is undefined
+      CS_IDLE;
+src\tft_lcd.c(48): warning:  #260-D: explicit type is missing ("int" assumed)
   static inline void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(114): error:  #65: expected a ";"
+src\tft_lcd.c(48): error:  #65: expected a ";"
   static inline void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(197): warning:  #12-D: parsing restarts here after previous syntax error
-  	ret = readReg40(0xBF);
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(198): error:  #169: expected a declaration
-  	if (ret == 0x8357)          //HX8357B: [xx 01 62 83 57 FF]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(200): error:  #169: expected a declaration
-  	if (ret == 0x9481)          //ILI9481: [xx 02 04 94 81 FF]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(202): error:  #169: expected a declaration
-      if (ret == 0x1511)          //?R61511: [xx 02 04 15 11] not tested yet
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(204): error:  #169: expected a declaration
-      if (ret == 0x1520)          //?R61520: [xx 01 22 15 20]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(206): error:  #169: expected a declaration
-      if (ret == 0x1526)          //?R61526: [xx 01 22 15 26]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(208): error:  #169: expected a declaration
-      if (ret == 0x1581)          //R61581:  [xx 01 22 15 81]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(210): error:  #169: expected a declaration
-      if (ret == 0x1400)          //?RM68140:[xx FF 68 14 00] not tested yet
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(212): error:  #77-D: this declaration has no storage class or type specifier
-      ret = readReg32(0xD4);
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(212): error:  #20: identifier "readReg32" is undefined
-      ret = readReg32(0xD4);
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(212): error:  #59: function call is not allowed in a constant expression
-      ret = readReg32(0xD4);
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(213): error:  #169: expected a declaration
-      if (ret == 0x5310)          //NT35310: [xx 01 53 10]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #77-D: this declaration has no storage class or type specifier
-      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #148: variable "ret" has already been initialized
-      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #20: identifier "readReg40" is undefined
-      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(215): error:  #59: function call is not allowed in a constant expression
-      ret = readReg40(0xEF);      //ILI9327: [xx 02 04 93 27 FF] 
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(216): error:  #169: expected a declaration
-      if (ret == 0x9327)
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(218): error:  #59: function call is not allowed in a constant expression
-      uint32_t ret32 = readReg32(0x04);
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(219): error:  #77-D: this declaration has no storage class or type specifier
-      msb = ret32 >> 16;
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(219): error:  #28: expression must have a constant value
-      msb = ret32 >> 16;
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(220): error:  #77-D: this declaration has no storage class or type specifier
-      ret = ret32;	
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(220): error:  #148: variable "ret" has already been initialized
-      ret = ret32;	
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(220): error:  #28: expression must have a constant value
-      ret = ret32;	
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(222): error:  #169: expected a declaration
-      if (msb == 0x00 && ret == 0x8000) { //HX8357-D [xx 00 80 00]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(234): warning:  #12-D: parsing restarts here after previous syntax error
-          return 0x1526;          //subsequent begin() enables Command Access
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(235): error:  #169: expected a declaration
-  	if (ret == 0x8552)          //ST7789V: [xx 85 85 52]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(237): error:  #169: expected a declaration
-      if (ret == 0xAC11)          //?unknown [xx 61 AC 11]
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(239): error:  #77-D: this declaration has no storage class or type specifier
-      ret = readReg32(0xD3);      //for ILI9488, 9486, 9340, 9341
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(239): error:  #148: variable "ret" has already been initialized
-      ret = readReg32(0xD3);      //for ILI9488, 9486, 9340, 9341
-MCUFRIEND_kbv\MCUFRIEND_kbv.c(239): error:  #59: function call is not allowed in a constant expression
-      ret = readReg32(0xD3);      //for ILI9488, 9486, 9340, 9341
-MCUFRIEND_kbv\MCUFRIEND_kbv.c: 9 warnings, 30 errors
-".\Objects\radioBridge.axf" - 30 Error(s), 7 Warning(s).
+src\tft_lcd.c(78): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+src\tft_lcd.c(32): warning:  #177-D: function "WriteCmdParamN" was declared but never referenced
+  static void WriteCmdParamN(uint16_t cmd, int8_t N, uint8_t * block)
+src\tft_lcd.c(48): warning:  #177-D: variable "inline" was declared but never referenced
+  static inline void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
+src\tft_lcd.c: 13 warnings, 13 errors
+compiling Adafruit_GFX.c...
+Adafruit_GFX_Library\Adafruit_GFX.c(57): error:  #20: identifier "_width" is undefined
+    if((x < 0) || (y < 0) || (x >= _width) || (y >= _height)) return;
+Adafruit_GFX_Library\Adafruit_GFX.c(57): error:  #20: identifier "_height" is undefined
+    if((x < 0) || (y < 0) || (x >= _width) || (y >= _height)) return;
+Adafruit_GFX_Library\Adafruit_GFX.c(59): error:  #20: identifier "CS_ACTIVE" is undefined
+    CS_ACTIVE;
+Adafruit_GFX_Library\Adafruit_GFX.c(60): error:  #20: identifier "driver" is undefined
+    if((driver == ID_932X) || (driver == ID_S6D0154)) {
+Adafruit_GFX_Library\Adafruit_GFX.c(60): error:  #20: identifier "ID_932X" is undefined
+    if((driver == ID_932X) || (driver == ID_S6D0154)) {
+Adafruit_GFX_Library\Adafruit_GFX.c(60): error:  #20: identifier "ID_S6D0154" is undefined
+    if((driver == ID_932X) || (driver == ID_S6D0154)) {
+Adafruit_GFX_Library\Adafruit_GFX.c(62): error:  #20: identifier "rotation" is undefined
+      switch(rotation) {
+Adafruit_GFX_Library\Adafruit_GFX.c(65): error:  #20: identifier "TFTWIDTH" is undefined
+        x = TFTWIDTH  - 1 - y;
+Adafruit_GFX_Library\Adafruit_GFX.c(70): error:  #20: identifier "TFTHEIGHT" is undefined
+        y = TFTHEIGHT - 1 - y;
+Adafruit_GFX_Library\Adafruit_GFX.c(78): warning:  #223-D: function "writeRegister16" declared implicitly
+      writeRegister16(0x0020, x);
+Adafruit_GFX_Library\Adafruit_GFX.c(109): error:  #20: identifier "CS_IDLE" is undefined
+    CS_IDLE;
+Adafruit_GFX_Library\Adafruit_GFX.c: 1 warning, 10 errors
+".\Objects\radioBridge.axf" - 23 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -117,17 +116,17 @@ Package Vendor: ARM
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.1.0.pack
-                Keil::Device:StdPeriph Drivers:Framework:3.5.1
+                Keil::Device:Startup:1.0.0
                 STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
-   * Component: Framework Version: 3.5.1
    * Component: Startup Version: 1.0.0
+   * Component: Framework Version: 3.5.1
    * Component: DMA Version: 3.5.0
+   * Component: GPIO Version: 1.2
    * Component: GPIO Version: 3.5.0
-   * Component: USART Version: 3.5.0
-   * Component: TIM Version: 3.5.0
    * Component: RCC Version: 3.5.0
    * Component: SPI Version: 3.5.0
-   * Component: GPIO Version: 1.2
+   * Component: TIM Version: 3.5.0
+   * Component: USART Version: 3.5.0
 
 <h2>Collection of Component include folders:</h2>
   G:\My_proj\stm32_tft\RTE
@@ -141,48 +140,48 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.0.0
 
+   * Component: Keil::Device:Startup:1.0.0
+      Source file:   Device\Source\system_stm32f10x.c
+      Include file:  RTE_Driver\Config\RTE_Device.h
+      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
+      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
+
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
       Source file:   Device\StdPeriph_Driver\src\misc.c
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
       Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
       Include file:  Device\StdPeriph_Driver\inc\misc.h
       Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
 
-   * Component: Keil::Device:Startup:1.0.0
-      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
-      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
-      Source file:   Device\Source\system_stm32f10x.c
-      Include file:  RTE_Driver\Config\RTE_Device.h
-
    * Component: Keil::Device:StdPeriph Drivers:DMA:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_dma.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
+
+   * Component: Keil::Device:GPIO:1.2
+      Include file:  RTE_Driver\GPIO_STM32F10x.h
+      Source file:   RTE_Driver\GPIO_STM32F10x.c
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
-
-   * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
-
-   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
 
    * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
 
-   * Component: Keil::Device:GPIO:1.2
-      Include file:  RTE_Driver\GPIO_STM32F10x.h
-      Source file:   RTE_Driver\GPIO_STM32F10x.c
+   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
+
+   * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 Target not created.
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
