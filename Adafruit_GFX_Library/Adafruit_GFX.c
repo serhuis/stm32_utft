@@ -52,7 +52,7 @@ void Adafruit_GFX_Init(GFX_Object *Object)
 
 
 void Adafruit_TFT_drawPixel(int16_t x, int16_t y, uint16_t color) {
-
+/*
   // Clip
   if((x < 0) || (y < 0) || (x >= _width) || (y >= _height)) return;
 
@@ -80,33 +80,8 @@ void Adafruit_TFT_drawPixel(int16_t x, int16_t y, uint16_t color) {
     writeRegister16(0x0022, color);
 
   }
-/*
-	else if(driver == ID_7575) {
-
-    uint8_t hi, lo;
-    switch(rotation) {
-     default: lo = 0   ; break;
-     case 1 : lo = 0x60; break;
-     case 2 : lo = 0xc0; break;
-     case 3 : lo = 0xa0; break;
-    }
-    writeRegister8(   HX8347G_MEMACCESS      , lo);
-    // Only upper-left is set -- bottom-right is full screen default
-    writeRegisterPair(HX8347G_COLADDRSTART_HI, HX8347G_COLADDRSTART_LO, x);
-    writeRegisterPair(HX8347G_ROWADDRSTART_HI, HX8347G_ROWADDRSTART_LO, y);
-    hi = color >> 8; lo = color;
-    CD_COMMAND; write8(0x22); CD_DATA; write8(hi); write8(lo);
-
-  } else if ((driver == ID_9341) || (driver == ID_HX8357D) || (driver == ID_ILI9327)) {
-    setAddrWindow(x, y, _width-1, _height-1);
-    CS_ACTIVE;
-    CD_COMMAND; 
-    write8(0x2C);
-    CD_DATA; 
-    write8(color >> 8); write8(color);
-  }
-*/
   CS_IDLE;
+	*/
 }
 
 
@@ -114,6 +89,7 @@ void Adafruit_TFT_drawPixel(int16_t x, int16_t y, uint16_t color) {
 
 void Adafruit_GFX_drawCircle(GFX_Object *Object, int32_t x0, int32_t y0, int32_t r, uint16_t color)
 {
+	
 	int32_t f = 1 - r;
 	int32_t ddF_x = 1;
 	int32_t ddF_y = -2 * r;
@@ -146,6 +122,7 @@ void Adafruit_GFX_drawCircle(GFX_Object *Object, int32_t x0, int32_t y0, int32_t
 		Object->drawPixel(x0 + y, y0 - x, color);
 		Object->drawPixel(x0 - y, y0 - x, color);
 	}
+	
 }
 
 void Adafruit_GFX_drawCircleHelper(GFX_Object *Object, int32_t x0, int32_t y0, int32_t r, uint8_t cornername, uint16_t color)
