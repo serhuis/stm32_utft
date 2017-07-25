@@ -51,42 +51,6 @@ void Adafruit_GFX_Init(GFX_Object *Object)
 /* Draw a circle outline */
 
 
-void Adafruit_TFT_drawPixel(int16_t x, int16_t y, uint16_t color) {
-/*
-  // Clip
-  if((x < 0) || (y < 0) || (x >= _width) || (y >= _height)) return;
-
-  CS_ACTIVE;
-  if((driver == ID_932X) || (driver == ID_S6D0154)) {
-    int16_t t;
-    switch(rotation) {
-     case 1:
-      t = x;
-      x = TFTWIDTH  - 1 - y;
-      y = t;
-      break;
-     case 2:
-      x = TFTWIDTH  - 1 - x;
-      y = TFTHEIGHT - 1 - y;
-      break;
-     case 3:
-      t = x;
-      x = y;
-      y = TFTHEIGHT - 1 - t;
-      break;
-    }
-    writeRegister16(0x0020, x);
-    writeRegister16(0x0021, y);
-    writeRegister16(0x0022, color);
-
-  }
-  CS_IDLE;
-	*/
-}
-
-
-
-
 void Adafruit_GFX_drawCircle(GFX_Object *Object, int32_t x0, int32_t y0, int32_t r, uint16_t color)
 {
 	

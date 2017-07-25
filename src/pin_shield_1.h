@@ -754,8 +754,6 @@
   #define A4_PIN  1
   #define A5_PORT PORTC
   #define A5_PIN  1
-#else
-#error MCU unselected
 #endif        // MCUs
 
 #endif     //PIN_SHIELD_1_H

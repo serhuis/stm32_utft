@@ -73,7 +73,7 @@
 GFX_Object tft;
 void tft_init()
 {
-	
+	/*
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
 	GPIO_DeInit(KEYS_PORT);
@@ -93,7 +93,7 @@ void tft_init()
 	GPIO_AFConfigure(AFIO_SWJ_JTAG_NO_SW);
 	
 	KEYS_PORT->BRR |= GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6;
-	
+*/	
 	
 	
 	Adafruit_GFX_Init(&tft);
@@ -131,15 +131,17 @@ static void WriteCmdParamN(uint16_t cmd, int8_t N, uint8_t * block)
         uint8_t u8 = *block++;
         CD_DATA;
         write8(u8);
-        if (N && is8347) {
+/*
+			if (N && is8347) {
             cmd++;
             WriteCmd(cmd);
         }
+*/
     }
     CS_IDLE;
 }
 
-static inline void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
+static void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
 {
     uint8_t d[4];
     d[0] = d1, d[1] = d2, d[2] = d3, d[3] = d4;

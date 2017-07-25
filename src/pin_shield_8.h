@@ -8,9 +8,9 @@
 #define STM32F103xB
 
 
-#include <STM32F10X.h>
+#include "stm32f10x.h"
 
-#include <STM32F1XX.h>
+//#include <STM32F1XX.h>
 
 // configure macros for the data pins. -00=10.06, -O1=7.85, -O1t=7.21, -O2=7.87, -O3=7.45, -O3t=7.03
   #define write_8(d) { \
@@ -42,5 +42,4 @@
 //                                 PA10,PA9,PA8                       PB10                   PB5,PB4,PB3                             PC7
 #define setWriteDir() {GP_OUT(GPIOA, CRH, 0xFFF); GP_OUT(GPIOB, CRH, 0xF00); GP_OUT(GPIOB, CRL, 0xFFF000); GP_OUT(GPIOC, CRL, 0xF0000000); }
 #define setReadDir()  {GP_INP(GPIOA, CRH, 0xFFF); GP_INP(GPIOB, CRH, 0xF00); GP_INP(GPIOB, CRL, 0xFFF000); GP_INP(GPIOC, CRL, 0xF0000000); }
-
-
+#endif

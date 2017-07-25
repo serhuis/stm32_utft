@@ -1,3 +1,4 @@
+/*
 #ifndef MCUFRIEND_KEIL_H_
 #define MCUFRIEND_KEIL_H_
 
@@ -59,3 +60,5 @@
 
 #endif   //!USE_SERIAL
 #endif   //MCUFRIEND_KEIL_H_
+
+*/
