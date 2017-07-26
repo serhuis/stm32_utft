@@ -4,7 +4,9 @@
 
 // control pins as used in MCUFRIEND shields 
 #define TFT_PORT 				GPIOB
+#define TFT_PORT_MASK		0x0FFF			//RB12-RB15 are for SPI
 #define TFT_DATA_MASK		0x00FF
+
 
 #define RD_PORT 				GPIOB
 #define RD_PIN  				GPIO_Pin_2
@@ -37,8 +39,8 @@
 #define WR_ACTIVE  		PIN_LOW(WR_PORT, WR_PIN)
 #define WR_IDLE    		PIN_HIGH(WR_PORT, WR_PIN)
 #define WR_OUTPUT  		PIN_OUTPUT(WR_PORT, WR_PIN)
-#define CD_COMMAND		PIN_LOW(CD_PORT, CD_PIN)
-#define CD_DATA    		PIN_HIGH(CD_PORT, CD_PIN)
+#define CD_COMMAND		{PIN_LOW(CD_PORT, CD_PIN);}
+#define CD_DATA    		{PIN_HIGH(CD_PORT, CD_PIN);}
 #define CD_OUTPUT  		PIN_OUTPUT(CD_PORT, CD_PIN)
  
 #define CS_ACTIVE  		PIN_LOW(CS_PORT, CS_PIN)
@@ -52,18 +54,20 @@
 #define WR_STROBE { WR_ACTIVE; WR_IDLE; }         //PWLW=TWRL=50ns
 #define RD_STROBE RD_IDLE, RD_ACTIVE, RD_ACTIVE, RD_ACTIVE   //PWLR=TRDL=150ns
 
-#define write8(d) { write_8(d); WR_ACTIVE; WR_ACTIVE; WR_STROBE; WR_IDLE; } // STROBEs are defined later
+//#define write_8(x)    { TFT_PORT = (TFT_PORT & ~TFT_DATA_MASK) | ((x) & TFT_DATA_MASK);}
+#define write8(d) { TFT_PORT = (TFT_PORT & ~TFT_DATA_MASK) | ((x) & TFT_DATA_MASK); WR_ACTIVE; WR_ACTIVE; WR_STROBE; WR_IDLE; } // STROBEs are defined later
 // read 250ns after RD_ACTIVE goes low
 #define read8() ( RD_STROBE, RD_ACTIVE, RD_ACTIVE, RD_ACTIVE, RD_ACTIVE, RD_ACTIVE, RD_ACTIVE, read_8() )
 
 
-#define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
+//#define write16(x)    { uint8_t h = (x)>>8, l = x; write8(h); write8(l); }
+#define write16(x)    {write8((x)>>8); write8(x); }
 #define READ_8(dst)   { dst = read8(); RD_IDLE; }
 #define READ_16(dst)  { dst = read8(); dst = (dst<<8) | read8(); RD_IDLE; }
 
 #define CTL_INIT()   { RD_OUTPUT; WR_OUTPUT; CD_OUTPUT; CS_OUTPUT; RESET_OUTPUT; }
-#define WriteCmd(x)  { CD_COMMAND; write16(x); }
-#define WriteData(x) { CD_DATA; write16(x); }
+#define WriteCmd(x)  { CD_COMMAND; write16(x);}
+#define WriteData(x) { CD_DATA; write16(x);}
 
 
 
@@ -71,33 +75,48 @@
 
 
 GFX_Object tft;
+u8 done_reset=0;
 void tft_init()
 {
-	/*
+
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
-	GPIO_DeInit(KEYS_PORT);
+	GPIO_DeInit(TFT_PORT);
 
-	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOB, ENABLE );
+	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOB|RCC_APB2Periph_GPIOC, ENABLE );
 	
 	// Configure LCD Back Light (PA8) as output push-pull 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6;
+	GPIO_InitStructure.GPIO_Pin = TFT_PORT_MASK;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init( KEYS_PORT, &GPIO_InitStructure );
+	
+	GPIO_Init( TFT_PORT, &GPIO_InitStructure );
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_10|GPIO_Pin_12|GPIO_Pin_14;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-	GPIO_Init( KEYS_PORT, &GPIO_InitStructure );
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init( RESET_PORT, &GPIO_InitStructure );
 	
-	GPIO_AFConfigure(AFIO_SWJ_JTAG_NO_SW);
 	
-	KEYS_PORT->BRR |= GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_6;
-*/	
 	
+	done_reset = 1;
+	setWriteDir();
+	CTL_INIT();
+	CS_IDLE;
+	RD_IDLE;
+	WR_IDLE;
+	RESET_IDLE;
+	delay(50);
+	RESET_ACTIVE;
+	delay(100);
+	RESET_IDLE;
+	delay(100);
+	WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
 	
 	Adafruit_GFX_Init(&tft);
 }
+
+
 void tft_reset(void)
 {
     done_reset = 1;
@@ -112,7 +131,7 @@ void tft_reset(void)
     delay(100);
     RESET_IDLE;
     delay(100);
-	WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
+		tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
 }
 
 void tft_WriteCmdData(uint16_t cmd, uint16_t dat)
@@ -163,12 +182,15 @@ static uint16_t read16bits(void)
     READ_8(lo);
     return (ret << 8) | lo;
 }
+#define setWriteDir() {GP_OUT(GPIOA, CRH, 0xFFF); GP_OUT(GPIOB, CRH, 0xF00); GP_OUT(GPIOB, CRL, 0xFFF000); GP_OUT(GPIOC, CRL, 0xF0000000); }
+#define setReadDir()  {GP_INP(GPIOA, CRH, 0xFFF); GP_INP(GPIOB, CRH, 0xF00); GP_INP(GPIOB, CRL, 0xFFF000); GP_INP(GPIOC, CRL, 0xF0000000); }
 
 uint16_t tft_readReg(uint16_t reg, int8_t index)
 {
     uint16_t ret;
     uint8_t lo;
-    if (!done_reset)
+/*
+	if (!done_reset)
         reset();
     CS_ACTIVE;
     WriteCmd(reg);
@@ -180,21 +202,22 @@ uint16_t tft_readReg(uint16_t reg, int8_t index)
     RD_IDLE;
     CS_IDLE;
     setWriteDir();
+		*/
     return ret;
 }
 
 uint32_t tft_readReg32(uint16_t reg)
 {
-    uint16_t h = readReg(reg, 0);
-    uint16_t l = readReg(reg, 1);
+    uint16_t h = tft_readReg(reg, 0);
+    uint16_t l = tft_readReg(reg, 1);
     return ((uint32_t) h << 16) | (l);
 }
 
 uint32_t tft_readReg40(uint16_t reg)
 {
-    uint16_t h = readReg(reg, 0);
-    uint16_t m = readReg(reg, 1);
-    uint16_t l = readReg(reg, 2);
+    uint16_t h = tft_readReg(reg, 0);
+    uint16_t m = tft_readReg(reg, 1);
+    uint16_t l = tft_readReg(reg, 2);
     return ((uint32_t) h << 24) | (m << 8) | (l >> 8);
 }
 
@@ -202,24 +225,12 @@ uint32_t tft_readReg40(uint16_t reg)
 
 void tft_drawPixel(int16_t x, int16_t y, uint16_t color)
 {
-    // MCUFRIEND just plots at edge if you try to write outside of the box:
-    if (x < 0 || y < 0 || x >= width() || y >= height())
-        return;
-#if defined(OFFSET_9327)
-	if (_lcd_ID == 0x9327) {
-	    if (rotation == 2) y += OFFSET_9327;
-	    if (rotation == 3) x += OFFSET_9327;
-    }
-#endif
-    if (_lcd_capable & MIPI_DCS_REV1) {
-        WriteCmdParam4(_MC, x >> 8, x, x >> 8, x);
-        WriteCmdParam4(_MP, y >> 8, y, y >> 8, y);
-    } else {
-        WriteCmdData(_MC, x);
-        WriteCmdData(_MP, y);
-    }
-#if defined(SUPPORT_9488_555)
-    if (is555) color = color565_to_555(color);
-#endif
-    WriteCmdData(_MW, color);
+  // MCUFRIEND just plots at edge if you try to write outside of the box:
+/*
+  if (x < 0 || y < 0 || x >= width() || y >= height())
+		return;
+	tft_WriteCmdData(_MC, x);
+	tft_WriteCmdData(_MP, y);
+	tft_WriteCmdData(_MW, color);
+*/
 }

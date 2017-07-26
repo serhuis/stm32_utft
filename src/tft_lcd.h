@@ -6,6 +6,6 @@
 #include "Adafruit_GFX.h"
 #include "glcdfont.c"
 
-
+void tft_WriteCmdData(uint16_t cmd, uint16_t dat);
 
 #endif

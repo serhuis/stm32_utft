@@ -13,6 +13,7 @@
 ".\objects\keys.o"
 ".\objects\adafruit_gfx.o"
 ".\objects\glcdfont.o"
+".\objects\tft_lcd.o"
 ".\objects\startup_stm32f10x_md.o"
 ".\objects\system_stm32f10x.o"
 ".\objects\misc.o"
