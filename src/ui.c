@@ -5,6 +5,7 @@
 #include "ui.h"
 #include "timers.h"
 #include "queue.h"
+#include "tft_lcd.h"
 
 #define LED_PORT		GPIOA
 #define LED_PIN			GPIO_Pin_1
@@ -80,29 +81,7 @@ static void prvConfigKeyboard(void)
 
 void prvConfigureLCD( void )
 {
-/*	
-GPIO_InitTypeDef GPIO_InitStructure;
-
-	// Configure LCD Back Light (PA8) as output push-pull 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init( GPIOA, &GPIO_InitStructure );
-
-	// Set the Backlight Pin 
-	GPIO_WriteBit(GPIOA, GPIO_Pin_8, Bit_SET);
-
-	// Initialize the LCD 
-	LCD_Init();
-
-	// Set the Back Color 
-	LCD_SetBackColor( White );
-
-	// Set the Text Color 
-	LCD_SetTextColor( 0x051F );
-
-	LCD_Clear();
-	*/
+	tft_init();
 }
 
 

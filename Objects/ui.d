@@ -31,3 +31,6 @@
 .\objects\ui.o: .\freeRTOS\include\task.h
 .\objects\ui.o: .\freeRTOS\include\list.h
 .\objects\ui.o: .\freeRTOS\include\queue.h
+.\objects\ui.o: src\tft_lcd.h
+.\objects\ui.o: .\Adafruit_GFX_Library\Adafruit_GFX.h
+.\objects\ui.o: .\Adafruit_GFX_Library\glcdfont.c

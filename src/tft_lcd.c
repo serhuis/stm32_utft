@@ -23,32 +23,32 @@
 #define RESET_PORT 			GPIOC
 #define RESET_PIN  			GPIO_Pin_13
 
-#define PIN_LOW(port, pin)    (port)->BRR = (1<<(pin))
-#define PIN_HIGH(port, pin)   (port)->BSRR = (1<<(pin))
-#define PIN_READ(port, pin)   (port)->IDR & (1<<(pin))
-#define PIN_MODE4(reg, pin, mode) reg=(reg&~(0xF<<((pin)<<2)))|(mode<<((pin)<<2))
-#define PIN_OUTPUT(port, pin) {if (pin > 7) PIN_MODE4((port)->CRH, (pin&7), 0x3); else  PIN_MODE4((port)->CRL, pin, 0x3); } //50MHz push-pull only 0-7
-#define PIN_INPUT(port, pin) {if (pin > 7) PIN_MODE4((port)->CRH, (pin&7), 0x4); else  PIN_MODE4((port)->CRL, pin, 0x4); }  //input
+#define PIN_LOW(port, pin)    (port)->BRR |= (pin)
+#define PIN_HIGH(port, pin)   (port)->BSRR |= (pin)
+#define PIN_READ(port, pin)   (port)->IDR & (pin)
+//#define PIN_MODE4(reg, pin, mode) reg=(reg&~(0xF<<((pin)<<2)))|(mode<<((pin)<<2))
+//#define PIN_OUTPUT(port, pin) {if (pin > 7) PIN_MODE4((port)->CRH, (pin&7), 0x3); else  PIN_MODE4((port)->CRL, pin, 0x3); } //50MHz push-pull only 0-7
+//#define PIN_INPUT(port, pin) {if (pin > 7) PIN_MODE4((port)->CRH, (pin&7), 0x4); else  PIN_MODE4((port)->CRL, pin, 0x4); }  //input
 
 
 // general purpose pin macros
 #define RD_ACTIVE  		PIN_LOW(RD_PORT, RD_PIN)
 #define RD_IDLE    		PIN_HIGH(RD_PORT, RD_PIN)
-#define RD_OUTPUT  		PIN_OUTPUT(RD_PORT, RD_PIN)
+//#define RD_OUTPUT  		PIN_OUTPUT(RD_PORT, RD_PIN)
 
 #define WR_ACTIVE  		PIN_LOW(WR_PORT, WR_PIN)
 #define WR_IDLE    		PIN_HIGH(WR_PORT, WR_PIN)
-#define WR_OUTPUT  		PIN_OUTPUT(WR_PORT, WR_PIN)
+//#define WR_OUTPUT  		PIN_OUTPUT(WR_PORT, WR_PIN)
 #define CD_COMMAND		{PIN_LOW(CD_PORT, CD_PIN);}
 #define CD_DATA    		{PIN_HIGH(CD_PORT, CD_PIN);}
-#define CD_OUTPUT  		PIN_OUTPUT(CD_PORT, CD_PIN)
+//#define CD_OUTPUT  		PIN_OUTPUT(CD_PORT, CD_PIN)
  
 #define CS_ACTIVE  		PIN_LOW(CS_PORT, CS_PIN)
 #define CS_IDLE    		PIN_HIGH(CS_PORT, CS_PIN)
-#define CS_OUTPUT  		PIN_OUTPUT(CS_PORT, CS_PIN)
+//#define CS_OUTPUT  		PIN_OUTPUT(CS_PORT, CS_PIN)
 #define RESET_ACTIVE  PIN_LOW(RESET_PORT, RESET_PIN)
 #define RESET_IDLE    PIN_HIGH(RESET_PORT, RESET_PIN)
-#define RESET_OUTPUT  PIN_OUTPUT(RESET_PORT, RESET_PIN)
+//#define RESET_OUTPUT  PIN_OUTPUT(RESET_PORT, RESET_PIN)
 
 // General macros.   IOCLR registers are 1 cycle when optimised.
 #define WR_STROBE { WR_ACTIVE(); WR_IDLE(); }         //PWLW=TWRL=50ns
@@ -65,7 +65,7 @@
 //#define READ_8(dst)   { dst = read8(); RD_IDLE; }
 #define READ_16(dst)  { dst = read8(); dst = (dst<<8) | read8(); RD_IDLE; }
 
-#define CTL_INIT   { RD_OUTPUT; WR_OUTPUT; CD_OUTPUT; CS_OUTPUT; RESET_OUTPUT; }
+//#define CTL_INIT   { RD_OUTPUT; WR_OUTPUT; CD_OUTPUT; CS_OUTPUT; RESET_OUTPUT; }
 //#define WriteCmd(x)  { CD_COMMAND; write16(x);}
 //#define WriteData(x) { CD_DATA(); write16(x);}
 
@@ -75,7 +75,14 @@
 
 void tft_delay(u32 delay)
 {
-	while(--delay);
+	while(--delay)
+	{
+		__nop;
+		__nop;
+		__nop;
+		__nop;
+		__nop;
+	};
 }
 
 
@@ -85,37 +92,51 @@ u8 done_reset=0;
 
 void write8(u8 data)
 {
+	CS_ACTIVE;
 	WR_ACTIVE;
 	PORT_SET_WRITE;
 	TFT_PORT->ODR = ((TFT_PORT->ODR & ~TFT_DATA_MASK) | (data<<4)); 
 	WR_IDLE;
-
+	CS_IDLE;
 }
+/*u8 read8(void)
 
-u8 read8(void)
 {
 	u8 result;
 	
-	RD_ACTIVE;
+	CS_ACTIVE;
 	PORT_SET_READ;
+	RD_ACTIVE;
+	
 	result = ((TFT_PORT->IDR & TFT_DATA_MASK)>>4);
+	
 	RD_IDLE;
+	CS_IDLE;
+	
 	return result;
 }
-
+*/
 u16 read16(void)
 {
 	u16 result=0;
 	
-	RD_ACTIVE;
+	CS_ACTIVE;
 	PORT_SET_READ;
-	result = ((TFT_PORT->IDR & TFT_DATA_MASK)<<4);
-	RD_IDLE;
-
 	RD_ACTIVE;
-	result |= ((TFT_PORT->IDR & TFT_DATA_MASK)>>4);
+	
+	result = ((TFT_PORT->IDR & TFT_DATA_MASK)<<4);
+	
 	RD_IDLE;
+	CS_IDLE;
 
+	CS_ACTIVE;
+	RD_ACTIVE;
+	
+	result |= ((TFT_PORT->IDR & TFT_DATA_MASK)>>4);
+	
+	RD_IDLE;
+	CS_IDLE;
+	
 	return result;
 }
 void write16(u16 x)
@@ -135,53 +156,11 @@ void WriteData(u8 x)
 }
 
 
-
-void tft_init()
-{
-
-	GPIO_InitTypeDef GPIO_InitStructure;
-	
-	GPIO_DeInit(TFT_PORT);
-
-	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOB|RCC_APB2Periph_GPIOC, ENABLE );
-	
-	// Configure LCD Back Light (PA8) as output push-pull 
-	GPIO_InitStructure.GPIO_Pin = TFT_PORT_MASK;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	
-	GPIO_Init( TFT_PORT, &GPIO_InitStructure );
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init( RESET_PORT, &GPIO_InitStructure );
-	
-	
-	
-	done_reset = 1;
-	PORT_SET_WRITE;
-	CTL_INIT;
-	CS_IDLE;
-	RD_IDLE;
-	WR_IDLE;
-	RESET_IDLE;
-	tft_delay(50);
-	RESET_ACTIVE;
-	tft_delay(100);
-	RESET_IDLE;
-	tft_delay(100);
-	tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
-	
-	Adafruit_GFX_Init(&tft);
-}
-
-
 void tft_reset(void)
 {
     done_reset = 1;
     PORT_SET_WRITE;
-    CTL_INIT;
+//    CTL_INIT;
     CS_IDLE;
     RD_IDLE;
     WR_IDLE;
@@ -191,7 +170,7 @@ void tft_reset(void)
     tft_delay(100);
     RESET_IDLE;
     tft_delay(100);
-		tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
+//		tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
 }
 
 void tft_WriteCmdData(uint16_t cmd, uint16_t dat)
@@ -251,20 +230,13 @@ uint16_t tft_readReg(uint16_t reg, int8_t index)
 
 	if (!done_reset)
         tft_reset();
-    CS_ACTIVE;
     WriteCmd(reg);
-    PORT_SET_READ;
-    CD_DATA;
-    tft_delay(1);    //1us should be adequate
-    //    READ_16(ret);
-    do { ret = read16(); }while (--index >= 0);  //need to test with SSD1963
-    RD_IDLE;
-    CS_IDLE;
-    PORT_SET_WRITE;
-		
+    tft_delay(100);    //1us should be adequate
+		ret = read16();
+    //do { ret = read16(); }while (--index >= 0);  //need to test with SSD1963
+	
     return ret;
 }
-
 uint32_t tft_readReg32(uint16_t reg)
 {
     uint16_t h = tft_readReg(reg, 0);
@@ -281,14 +253,15 @@ uint32_t tft_readReg40(uint16_t reg)
 }
 
 
-void MCUFRIEND_kbv::setRotation(uint8_t r)
+void MCUFRIEND_kbv_setRotation(uint8_t r)
 {
-    uint16_t GS, SS, ORG, REV = _lcd_rev;
+ 
+		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
     uint8_t val, d[3];
-    rotation = r & 3;           // just perform the operation ourselves on the protected variables
-    _width = (rotation & 1) ? HEIGHT : WIDTH;
-    _height = (rotation & 1) ? WIDTH : HEIGHT;
-    switch (rotation) {
+//    rotation = r & 3;           // just perform the operation ourselves on the protected variables
+//    _width = (rotation & 1) ? HEIGHT : WIDTH;
+//    _height = (rotation & 1) ? WIDTH : HEIGHT;
+/*    switch (rotation) {
     case 0:                    //PORTRAIT:
         val = 0x48;             //MY=0, MX=1, MV=0, ML=0, BGR=1
         break;
@@ -428,27 +401,45 @@ void MCUFRIEND_kbv::setRotation(uint8_t r)
     }
     setAddrWindow(0, 0, width() - 1, height() - 1);
     vertScroll(0, HEIGHT, 0);   //reset scrolling after a rotation
+		*/
 }
 
 
 void tft_drawPixel(int16_t x, int16_t y, uint16_t color)
 {
   // MCUFRIEND just plots at edge if you try to write outside of the box:
-
+/*
   if (x < 0 || y < 0 || x >= width() || y >= height())
 		return;
 	tft_WriteCmdData(_MC, x);
 	tft_WriteCmdData(_MP, y);
 	tft_WriteCmdData(_MW, color);
-
+*/
 }
 
 
-/*
-#ifdef SUPPORT_0154
-    case 0x0154:
-        _lcd_capable = AUTO_READINC | REV_SCREEN;
-        static const uint16_t S6D0154_regValues[] PROGMEM = {
+
+static void init_table16(const void *table, int16_t size);
+#define TFTLCD_DELAY 0xFFFF
+static void init_table16(const void *table, int16_t size)
+{
+    uint16_t *p = (uint16_t *) table;
+    while (size > 0) {
+        uint16_t cmd = *p++;
+        uint16_t d = *p++;
+        if (cmd == TFTLCD_DELAY)
+            tft_delay(d);
+        else {
+            CS_ACTIVE;
+            WriteCmd(cmd);
+            WriteData(d);
+            CS_IDLE;
+        }
+        size -= 2 * sizeof(int16_t);
+    }
+}
+
+static const uint16_t S6D0154_regValues[] = {
             0x0011, 0x001A,
             0x0012, 0x3121,     //BT=3, DC1=1, DC2=2, DC3=1
             0x0013, 0x006C,     //GVD=108
@@ -469,7 +460,7 @@ void tft_drawPixel(int16_t x, int16_t y, uint16_t color)
 
             0x0001, 0x0128,
             0x0002, 0x0100,
-            0x0003, 0x1030,
+            0x0003, 0x1030,			//ID[1.0]="11", AM=”0”
             0x0007, 0x1012,
             0x0008, 0x0303,
             0x000B, 0x1100,
@@ -493,9 +484,48 @@ void tft_drawPixel(int16_t x, int16_t y, uint16_t color)
             0x0007, 0x0013,     //GON=1, REV=0, D=3
             0x0007, 0x0017,     //GON=1, REV=1, D=3 DISPLAY ON 
         };
-        init_table16(S6D0154_regValues, sizeof(S6D0154_regValues));
+#define DELAY_50us	300
+#define DELAY_100us	600
+				void tft_init(void)
+{
+	u16 id;
 
-        break;
-#endif
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	GPIO_DeInit(TFT_PORT);
 
-*/
+	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOB|RCC_APB2Periph_GPIOC, ENABLE );
+	
+	// Configure LCD Back Light (PA8) as output push-pull 
+	GPIO_InitStructure.GPIO_Pin = TFT_PORT_MASK;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	
+	GPIO_Init( TFT_PORT, &GPIO_InitStructure );
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(RESET_PORT, &GPIO_InitStructure );
+	
+	
+	PORT_SET_READ;
+	done_reset = 1;
+	PORT_SET_WRITE;
+//	CTL_INIT;
+	CS_IDLE;
+	RD_IDLE;
+	WR_IDLE;
+	RESET_IDLE;
+	tft_delay(DELAY_50us);
+	RESET_ACTIVE;
+	tft_delay(DELAY_100us);
+	RESET_IDLE;
+	tft_delay(DELAY_100us);
+//	tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
+
+	id = tft_readReg(0x83, 0);
+	init_table16(S6D0154_regValues, sizeof(S6D0154_regValues));
+	
+	Adafruit_GFX_Init(&tft);
+}
