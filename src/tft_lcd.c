@@ -51,8 +51,8 @@
 //#define RESET_OUTPUT  PIN_OUTPUT(RESET_PORT, RESET_PIN)
 
 // General macros.   IOCLR registers are 1 cycle when optimised.
-#define WR_STROBE { WR_ACTIVE(); WR_IDLE(); }         //PWLW=TWRL=50ns
-#define RD_STROBE {RD_IDLE(), RD_ACTIVE(), RD_ACTIVE(), RD_ACTIVE();}   //PWLR=TRDL=150ns
+#define WR_STROBE { WR_ACTIVE; WR_IDLE; }         //t~200ns
+#define RD_STROBE {RD_ACTIVE, RD_ACTIVE, RD_ACTIVE,RD_IDLE;}   //PWLR=TRDL=150ns
 
 //#define write_8(x)    { TFT_PORT = (TFT_PORT & ~TFT_DATA_MASK) | ((x) & TFT_DATA_MASK);}
 //#define write8(d) { WR_ACTIVE; TFT_PORT = (TFT_PORT & ~TFT_DATA_MASK) | ((x) & TFT_DATA_MASK); WR_IDLE;} // STROBEs are defined later
@@ -75,6 +75,8 @@
 
 void tft_delay(u32 delay)
 {
+	if(0 == delay)
+		return;
 	while(--delay)
 	{
 		__nop;
@@ -93,10 +95,12 @@ u8 done_reset=0;
 void write8(u8 data)
 {
 	CS_ACTIVE;
-	WR_ACTIVE;
+
 	PORT_SET_WRITE;
 	TFT_PORT->ODR = ((TFT_PORT->ODR & ~TFT_DATA_MASK) | (data<<4)); 
-	WR_IDLE;
+	tft_delay(3);
+	WR_STROBE;
+	
 	CS_IDLE;
 }
 /*u8 read8(void)
@@ -122,17 +126,22 @@ u16 read16(void)
 	
 	CS_ACTIVE;
 	PORT_SET_READ;
-	RD_ACTIVE;
+//	RD_STROBE;
 	
+	RD_ACTIVE;
+	tft_delay(3);
 	result = ((TFT_PORT->IDR & TFT_DATA_MASK)<<4);
 	
 	RD_IDLE;
-	CS_IDLE;
-
-	CS_ACTIVE;
-	RD_ACTIVE;
 	
+	CS_IDLE;
+	tft_delay(3);
+	CS_ACTIVE;
+	
+	RD_ACTIVE;
+	tft_delay(10);
 	result |= ((TFT_PORT->IDR & TFT_DATA_MASK)>>4);
+	
 	
 	RD_IDLE;
 	CS_IDLE;
@@ -144,12 +153,12 @@ void write16(u16 x)
 	write8(((x&0xFF00)>>8)&0xFF);
 	write8(x&0xFF);
 }
-void WriteCmd(u8 x)
+void WriteCmd(u16 x)
 { 
 	CD_COMMAND; 
 	write16(x);
 }
-void WriteData(u8 x) 
+void WriteData(u16 x) 
 { 
 	CD_DATA; 
 	write16(x);
@@ -158,8 +167,8 @@ void WriteData(u8 x)
 
 void tft_reset(void)
 {
-    done_reset = 1;
-    PORT_SET_WRITE;
+
+//    PORT_SET_WRITE;
 //    CTL_INIT;
     CS_IDLE;
     RD_IDLE;
@@ -167,7 +176,8 @@ void tft_reset(void)
     RESET_IDLE;
     tft_delay(50);
     RESET_ACTIVE;
-    tft_delay(100);
+    done_reset = 1;
+		tft_delay(100);
     RESET_IDLE;
     tft_delay(100);
 //		tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
@@ -231,7 +241,8 @@ uint16_t tft_readReg(uint16_t reg, int8_t index)
 	if (!done_reset)
         tft_reset();
     WriteCmd(reg);
-    tft_delay(100);    //1us should be adequate
+		CD_DATA;
+    tft_delay(10);    //1us should be adequate
 		ret = read16();
     //do { ret = read16(); }while (--index >= 0);  //need to test with SSD1963
 	
@@ -430,10 +441,8 @@ static void init_table16(const void *table, int16_t size)
         if (cmd == TFTLCD_DELAY)
             tft_delay(d);
         else {
-            CS_ACTIVE;
             WriteCmd(cmd);
             WriteData(d);
-            CS_IDLE;
         }
         size -= 2 * sizeof(int16_t);
     }
@@ -509,7 +518,7 @@ static const uint16_t S6D0154_regValues[] = {
 	GPIO_Init(RESET_PORT, &GPIO_InitStructure );
 	
 	
-	PORT_SET_READ;
+//	PORT_SET_READ;
 	done_reset = 1;
 	PORT_SET_WRITE;
 //	CTL_INIT;
@@ -524,8 +533,8 @@ static const uint16_t S6D0154_regValues[] = {
 	tft_delay(DELAY_100us);
 //	tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
 
-	id = tft_readReg(0x83, 0);
+	id = tft_readReg(0x04,0);
 	init_table16(S6D0154_regValues, sizeof(S6D0154_regValues));
 	
-	Adafruit_GFX_Init(&tft);
+//	Adafruit_GFX_Init(&tft);
 }
