@@ -94,14 +94,14 @@ u8 done_reset=0;
 
 void write8(u8 data)
 {
-	CS_ACTIVE;
-
 	PORT_SET_WRITE;
 	TFT_PORT->ODR = ((TFT_PORT->ODR & ~TFT_DATA_MASK) | (data<<4)); 
-	tft_delay(3);
-	WR_STROBE;
+	tft_delay(100);
+//	WR_STROBE;
 	
-	CS_IDLE;
+	WR_ACTIVE; 
+	tft_delay(100);
+	WR_IDLE;
 }
 /*u8 read8(void)
 
@@ -124,28 +124,24 @@ u16 read16(void)
 {
 	u16 result=0;
 	
-	CS_ACTIVE;
+	RD_ACTIVE;
 	PORT_SET_READ;
 //	RD_STROBE;
 	
-	RD_ACTIVE;
-	tft_delay(3);
+	tft_delay(300);
 	result = ((TFT_PORT->IDR & TFT_DATA_MASK)<<4);
 	
 	RD_IDLE;
 	
-	CS_IDLE;
-	tft_delay(3);
-	CS_ACTIVE;
+	tft_delay(300);
+
 	
 	RD_ACTIVE;
-	tft_delay(10);
+	tft_delay(300);
 	result |= ((TFT_PORT->IDR & TFT_DATA_MASK)>>4);
 	
 	
 	RD_IDLE;
-	CS_IDLE;
-	
 	return result;
 }
 void write16(u16 x)
@@ -155,13 +151,17 @@ void write16(u16 x)
 }
 void WriteCmd(u16 x)
 { 
+	CS_ACTIVE;
 	CD_COMMAND; 
 	write16(x);
+	CS_IDLE;
 }
 void WriteData(u16 x) 
 { 
+	CS_ACTIVE;
 	CD_DATA; 
 	write16(x);
+	CS_IDLE;
 }
 
 
@@ -233,7 +233,7 @@ static uint16_t read16bits(void)
 }
 */
 
-uint16_t tft_readReg(uint16_t reg, int8_t index)
+uint16_t tft_readReg(uint16_t reg, u8 index)
 {
     uint16_t ret;
     uint8_t lo;
@@ -241,12 +241,31 @@ uint16_t tft_readReg(uint16_t reg, int8_t index)
 	if (!done_reset)
         tft_reset();
     WriteCmd(reg);
+    CS_ACTIVE;
 		CD_DATA;
     tft_delay(10);    //1us should be adequate
 		ret = read16();
-    //do { ret = read16(); }while (--index >= 0);  //need to test with SSD1963
-	
+//		do { ret = read16bits(); }while (--index >= 0);  //need to test with SSD1963
+		CS_IDLE;
     return ret;
+	
+	/*
+	    uint16_t ret;
+    uint8_t lo;
+    if (!done_reset)
+        reset();
+    CS_ACTIVE;
+    WriteCmd(reg);
+    setReadDir();
+    CD_DATA;
+    delay(1);    //1us should be adequate
+    //    READ_16(ret);
+    do { ret = read16bits(); }while (--index >= 0);  //need to test with SSD1963
+    RD_IDLE;
+    CS_IDLE;
+    setWriteDir();
+    return ret;
+	*/
 }
 uint32_t tft_readReg32(uint16_t reg)
 {
@@ -533,7 +552,7 @@ static const uint16_t S6D0154_regValues[] = {
 	tft_delay(DELAY_100us);
 //	tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
 
-	id = tft_readReg(0x04,0);
+	id = tft_readReg(0x00, 0);
 	init_table16(S6D0154_regValues, sizeof(S6D0154_regValues));
 	
 //	Adafruit_GFX_Init(&tft);

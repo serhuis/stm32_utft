@@ -38,30 +38,24 @@ src\tft_lcd.c(85): warning:  #174-D: expression has no effect
   		__nop;
 src\tft_lcd.c(86): warning:  #174-D: expression has no effect
   		__nop;
-src\tft_lcd.c(239): warning:  #177-D: variable "lo" was declared but never referenced
-      uint8_t lo;
-src\tft_lcd.c(270): warning:  #177-D: variable "GS" was declared but never referenced
-  		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
-src\tft_lcd.c(270): warning:  #177-D: variable "SS" was declared but never referenced
-  		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
-src\tft_lcd.c(270): warning:  #177-D: variable "ORG" was declared but never referenced
-  		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
-src\tft_lcd.c(270): warning:  #177-D: variable "REV" was declared but never referenced
-  		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
-src\tft_lcd.c(271): warning:  #177-D: variable "val" was declared but never referenced
-      uint8_t val, d[3];
-src\tft_lcd.c(271): warning:  #177-D: variable "d" was declared but never referenced
-      uint8_t val, d[3];
-src\tft_lcd.c(540): warning:  #1-D: last line of file ends without a newline
+src\tft_lcd.c(559): warning:  #1-D: last line of file ends without a newline
   }
-src\tft_lcd.c(500): warning:  #550-D: variable "id" was set but never used
+src\tft_lcd.c(519): warning:  #550-D: variable "id" was set but never used
   	u16 id;
 src\tft_lcd.c(212): warning:  #177-D: function "WriteCmdParam4" was declared but never referenced
   static void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
 src\tft_lcd.c: 15 warnings, 0 errors
+_lcd.c(289): warning:  #177-D: variable "ORG" was declared but never referenced
+  		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
+src\tft_lcd.c(289): warning:  #177-D: variable "REV" was declared but never referenced
+  		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
+src\tft_lcd.c(290): warning:  #177-D: variable "val" was declared but never referenced
+      uint8_t val, d[3];
+src\tft_lcd.c(290): warning:  #177-D: variable "d" was declared but never referenced
+      uint8_t val, d[3];
 linking...
-Program Size: Code=9644 RO-data=1700 RW-data=324 ZI-data=12260  
-".\Objects\radioBridge.axf" - 0 Error(s), 15 Warning(s).
+Program Size: Code=9680 RO-data=1700 RW-data=324 ZI-data=12260  
+".\Objects\radioBridge.axf" - 0 Error(s), 12 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -73,17 +67,17 @@ Package Vendor: ARM
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.1.0.pack
-                Keil::Device:StdPeriph Drivers:Framework:3.5.1
+                Keil::Device:StdPeriph Drivers:DMA:3.5.0
                 STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
-   * Component: Framework Version: 3.5.1
    * Component: DMA Version: 3.5.0
+   * Component: Framework Version: 3.5.1
    * Component: Startup Version: 1.0.0
+   * Component: RCC Version: 3.5.0
    * Component: GPIO Version: 1.2
+   * Component: GPIO Version: 3.5.0
+   * Component: SPI Version: 3.5.0
    * Component: USART Version: 3.5.0
    * Component: TIM Version: 3.5.0
-   * Component: GPIO Version: 3.5.0
-   * Component: RCC Version: 3.5.0
-   * Component: SPI Version: 3.5.0
 
 <h2>Collection of Component include folders:</h2>
   G:\My_proj\stm32_tft\RTE
@@ -97,47 +91,47 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.0.0
 
-   * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
-      Source file:   Device\StdPeriph_Driver\src\misc.c
-      Include file:  Device\StdPeriph_Driver\inc\misc.h
-      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
-
    * Component: Keil::Device:StdPeriph Drivers:DMA:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_dma.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_dma.c
+
+   * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
+      Include file:  Device\StdPeriph_Driver\inc\misc.h
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
+      Source file:   Device\StdPeriph_Driver\src\misc.c
+      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
 
    * Component: Keil::Device:Startup:1.0.0
-      Source file:   Device\Source\system_stm32f10x.c
-      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
-      Include file:  RTE_Driver\Config\RTE_Device.h
       Source file:   Device\Source\ARM\startup_stm32f10x_md.s
+      Include file:  RTE_Driver\Config\RTE_Device.h
+      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
+      Source file:   Device\Source\system_stm32f10x.c
+
+   * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
 
    * Component: Keil::Device:GPIO:1.2
-      Include file:  RTE_Driver\GPIO_STM32F10x.h
       Source file:   RTE_Driver\GPIO_STM32F10x.c
-
-   * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
-
-   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
+      Include file:  RTE_Driver\GPIO_STM32F10x.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
 
-   * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
-
    * Component: Keil::Device:StdPeriph Drivers:SPI:3.5.0
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
-Build Time Elapsed:  00:00:00
+
+   * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
+
+   * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

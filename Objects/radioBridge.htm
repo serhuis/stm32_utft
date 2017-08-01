@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\radioBridge.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\radioBridge.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Mon Jul 31 17:13:49 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Tue Aug 01 11:54:57 2017
 <BR><P>
 <H3>Maximum Stack Usage =        240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -625,7 +625,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_md.o(.text)
 </UL>
-<P><STRONG><a name="[63]"></a>WriteCmd</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, tft_lcd.o(i.WriteCmd))
+<P><STRONG><a name="[63]"></a>WriteCmd</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, tft_lcd.o(i.WriteCmd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = WriteCmd &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write16
@@ -634,7 +634,7 @@ Global Symbols
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_table16
 </UL>
 
-<P><STRONG><a name="[65]"></a>WriteData</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, tft_lcd.o(i.WriteData))
+<P><STRONG><a name="[65]"></a>WriteData</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, tft_lcd.o(i.WriteData))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write16
@@ -677,7 +677,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvInitialiseNewTask
 </UL>
 
-<P><STRONG><a name="[a9]"></a>read16</STRONG> (Thumb, 186 bytes, Stack size 4 bytes, tft_lcd.o(i.read16))
+<P><STRONG><a name="[a9]"></a>read16</STRONG> (Thumb, 150 bytes, Stack size 4 bytes, tft_lcd.o(i.read16))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = read16
 </UL>
 <BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_delay
@@ -707,7 +707,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvConfigureLCD
 </UL>
 
-<P><STRONG><a name="[aa]"></a>tft_readReg</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, tft_lcd.o(i.tft_readReg))
+<P><STRONG><a name="[aa]"></a>tft_readReg</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, tft_lcd.o(i.tft_readReg))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = tft_readReg &rArr; WriteCmd &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_reset
@@ -941,7 +941,7 @@ Global Symbols
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteCmd
 </UL>
 
-<P><STRONG><a name="[b4]"></a>write8</STRONG> (Thumb, 116 bytes, Stack size 4 bytes, tft_lcd.o(i.write8))
+<P><STRONG><a name="[b4]"></a>write8</STRONG> (Thumb, 104 bytes, Stack size 4 bytes, tft_lcd.o(i.write8))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_delay
