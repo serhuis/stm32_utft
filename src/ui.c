@@ -81,7 +81,7 @@ static void prvConfigKeyboard(void)
 
 void prvConfigureLCD( void )
 {
-	tft_init();
+	myTFT_init();
 }
 
 

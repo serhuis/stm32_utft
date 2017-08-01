@@ -20,8 +20,10 @@ typedef enum
 
 typedef struct
 {
-	int32_t WIDTH, HEIGHT;			/* This is the 'raw' display w/h - never changes */
-	int32_t _width, _height;		/* Display w/h as modified by current rotation */
+	int32_t WIDTH;
+	int32_t HEIGHT;			/* This is the 'raw' display w/h - never changes */
+	int32_t _width;
+	int32_t _height;		/* Display w/h as modified by current rotation */
 	int32_t cursor_x, cursor_y;
 	uint16_t textcolor, textbgcolor;
 	uint8_t textsize, rotation;

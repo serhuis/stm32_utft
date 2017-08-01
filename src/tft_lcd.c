@@ -1,11 +1,11 @@
 
 #include "tft_lcd.h"
-#include "mcufriend_keil.h"
+//#include "mcufriend_keil.h"
 
 // control pins as used in MCUFRIEND shields 
-#define TFT_PORT 				GPIOB
-#define TFT_PORT_MASK		0x0FFF			//RB12-RB15 are for SPI
-#define TFT_DATA_MASK		0x0FF0
+#define myTFT_PORT 				GPIOB
+#define myTFT_PORT_MASK		0x0FFF			//RB12-RB15 are for SPI
+#define myTFT_DATA_MASK		0x0FF0
 
 
 #define RD_PORT 				GPIOB
@@ -54,8 +54,8 @@
 #define WR_STROBE { WR_ACTIVE; WR_IDLE; }         //t~200ns
 #define RD_STROBE {RD_ACTIVE, RD_ACTIVE, RD_ACTIVE,RD_IDLE;}   //PWLR=TRDL=150ns
 
-//#define write_8(x)    { TFT_PORT = (TFT_PORT & ~TFT_DATA_MASK) | ((x) & TFT_DATA_MASK);}
-//#define write8(d) { WR_ACTIVE; TFT_PORT = (TFT_PORT & ~TFT_DATA_MASK) | ((x) & TFT_DATA_MASK); WR_IDLE;} // STROBEs are defined later
+//#define write_8(x)    { myTFT_PORT = (myTFT_PORT & ~myTFT_DATA_MASK) | ((x) & myTFT_DATA_MASK);}
+//#define write8(d) { WR_ACTIVE; myTFT_PORT = (myTFT_PORT & ~myTFT_DATA_MASK) | ((x) & myTFT_DATA_MASK); WR_IDLE;} // STROBEs are defined later
 // read 250ns after RD_ACTIVE goes low
 //#define read8 ( RD_ACTIVE(), RD_ACTIVE(), RD_ACTIVE(), RD_ACTIVE(), RD_ACTIVE(), RD_ACTIVE(), read_8() )
 
@@ -69,11 +69,13 @@
 //#define WriteCmd(x)  { CD_COMMAND; write16(x);}
 //#define WriteData(x) { CD_DATA(); write16(x);}
 
-#define PORT_SET_WRITE {TFT_PORT->CRH = (TFT_PORT->CRH & 0xFFFF0000) | 0x00003333; TFT_PORT->CRL = (TFT_PORT->CRL & 0x0000FFFF) | 0x33330000;}
-#define PORT_SET_READ  {TFT_PORT->CRH = (TFT_PORT->CRH & 0xFFFF0000) | 0x00004444; TFT_PORT->CRL = (TFT_PORT->CRL & 0x0000FFFF) | 0x44440000;}
+#define PORT_SET_WRITE {myTFT_PORT->CRH = (myTFT_PORT->CRH & 0xFFFF0000) | 0x00003333; myTFT_PORT->CRL = (myTFT_PORT->CRL & 0x0000FFFF) | 0x33330000;}
+#define PORT_SET_READ  {myTFT_PORT->CRH = (myTFT_PORT->CRH & 0xFFFF0000) | 0x00004444; myTFT_PORT->CRL = (myTFT_PORT->CRL & 0x0000FFFF) | 0x44440000;}
+
+void myTFT_drawPixel(s32 x, s32 y, u16 color);
 
 
-void tft_delay(u32 delay)
+void myTFT_delay(u32 delay)
 {
 	if(0 == delay)
 		return;
@@ -88,60 +90,43 @@ void tft_delay(u32 delay)
 }
 
 
-GFX_Object tft;
+GFX_Object myTFT ={
+	.WIDTH = 240,
+	.HEIGHT = 320,			/* This is the 'raw' display w/h - never changes */
+	.cursor_x = 0,
+	.cursor_y = 0,
+	.textcolor = 0,
+	.textbgcolor = 255,
+	.rotation = 0,
+	.drawPixel = myTFT_drawPixel	/* This MUST be set by the creator of a GFX_Object */
+};
+
 u8 done_reset=0;
 
 
 void write8(u8 data)
 {
 	PORT_SET_WRITE;
-	TFT_PORT->ODR = ((TFT_PORT->ODR & ~TFT_DATA_MASK) | (data<<4)); 
-	tft_delay(100);
-//	WR_STROBE;
-	
+	myTFT_PORT->ODR = ((myTFT_PORT->ODR & ~myTFT_DATA_MASK) | (data<<4)); 
 	WR_ACTIVE; 
-	tft_delay(100);
 	WR_IDLE;
 }
-/*u8 read8(void)
 
-{
-	u8 result;
-	
-	CS_ACTIVE;
-	PORT_SET_READ;
-	RD_ACTIVE;
-	
-	result = ((TFT_PORT->IDR & TFT_DATA_MASK)>>4);
-	
-	RD_IDLE;
-	CS_IDLE;
-	
-	return result;
-}
-*/
 u16 read16(void)
 {
 	u16 result=0;
 	
 	RD_ACTIVE;
 	PORT_SET_READ;
-//	RD_STROBE;
 	
-	tft_delay(300);
-	result = ((TFT_PORT->IDR & TFT_DATA_MASK)<<4);
+	result = ((myTFT_PORT->IDR & myTFT_DATA_MASK)<<4);
 	
 	RD_IDLE;
-	
-	tft_delay(300);
 
-	
 	RD_ACTIVE;
-	tft_delay(300);
-	result |= ((TFT_PORT->IDR & TFT_DATA_MASK)>>4);
-	
-	
+	result |= ((myTFT_PORT->IDR & myTFT_DATA_MASK)>>4);
 	RD_IDLE;
+
 	return result;
 }
 void write16(u16 x)
@@ -149,14 +134,14 @@ void write16(u16 x)
 	write8(((x&0xFF00)>>8)&0xFF);
 	write8(x&0xFF);
 }
-void WriteCmd(u16 x)
+void myTFT_WriteCmd(u16 x)
 { 
 	CS_ACTIVE;
 	CD_COMMAND; 
 	write16(x);
 	CS_IDLE;
 }
-void WriteData(u16 x) 
+void myTFT_WriteData(u16 x) 
 { 
 	CS_ACTIVE;
 	CD_DATA; 
@@ -165,133 +150,116 @@ void WriteData(u16 x)
 }
 
 
-void tft_reset(void)
+void myTFT_reset(void)
 {
 
-//    PORT_SET_WRITE;
-//    CTL_INIT;
     CS_IDLE;
     RD_IDLE;
     WR_IDLE;
     RESET_IDLE;
-    tft_delay(50);
+    myTFT_delay(50);
     RESET_ACTIVE;
     done_reset = 1;
-		tft_delay(100);
+		myTFT_delay(100);
     RESET_IDLE;
-    tft_delay(100);
-//		tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
+    myTFT_delay(100);
 }
 
-void tft_WriteCmdData(uint16_t cmd, uint16_t dat)
+void myTFT_WriteCmdData(uint16_t cmd, uint16_t dat)
 {
-    CS_ACTIVE;
-    WriteCmd(cmd);
-    WriteData(dat);
-    CS_IDLE;
+    myTFT_WriteCmd(cmd);
+    myTFT_WriteData(dat);
 }
-
-static void WriteCmdParamN(uint16_t cmd, int8_t N, uint8_t * block)
+/*
+static void myTFT_WriteCmdParamN(uint16_t cmd, int8_t N, uint8_t * block)
 {
     CS_ACTIVE;
-    WriteCmd(cmd);
+    myTFT_WriteCmd(cmd);
     while (N-- > 0) {
         uint8_t u8 = *block++;
         CD_DATA;
         write8(u8);
-/*
-			if (N && is8347) {
-            cmd++;
-            WriteCmd(cmd);
-        }
-*/
     }
     CS_IDLE;
 }
-
-static void WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
+*/
+/*
+static void myTFT_WriteCmdParam4(uint8_t cmd, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4)
 {
     uint8_t d[4];
     d[0] = d1, d[1] = d2, d[2] = d3, d[3] = d4;
-    WriteCmdParamN(cmd, 4, d);
-}
-/*
-static uint16_t read16bits(void)
-{
-    uint16_t ret;
-    uint8_t lo;
-#if USING_16BIT_BUS
-    READ_16(ret);               //single strobe to read whole bus
-    if (ret > 255)              //ID might say 0x00D3
-        return ret;
-#else
-    READ_8(ret);
-#endif
-    //all MIPI_DCS_REV1 style params are 8-bit
-    READ_8(lo);
-    return (ret << 8) | lo;
+    myTFT_WriteCmdParamN(cmd, 4, d);
 }
 */
-
-uint16_t tft_readReg(uint16_t reg, u8 index)
+uint16_t myTFT_readReg(uint16_t reg, u8 index)
 {
     uint16_t ret;
-    uint8_t lo;
 
 	if (!done_reset)
-        tft_reset();
-    WriteCmd(reg);
+        myTFT_reset();
+    myTFT_WriteCmd(reg);
     CS_ACTIVE;
 		CD_DATA;
-    tft_delay(10);    //1us should be adequate
+    myTFT_delay(10);    //1us should be adequate
 		ret = read16();
 //		do { ret = read16bits(); }while (--index >= 0);  //need to test with SSD1963
 		CS_IDLE;
     return ret;
-	
-	/*
-	    uint16_t ret;
-    uint8_t lo;
-    if (!done_reset)
-        reset();
-    CS_ACTIVE;
-    WriteCmd(reg);
-    setReadDir();
-    CD_DATA;
-    delay(1);    //1us should be adequate
-    //    READ_16(ret);
-    do { ret = read16bits(); }while (--index >= 0);  //need to test with SSD1963
-    RD_IDLE;
-    CS_IDLE;
-    setWriteDir();
-    return ret;
-	*/
 }
-uint32_t tft_readReg32(uint16_t reg)
+uint32_t myTFT_readReg32(uint16_t reg)
 {
-    uint16_t h = tft_readReg(reg, 0);
-    uint16_t l = tft_readReg(reg, 1);
+    uint16_t h = myTFT_readReg(reg, 0);
+    uint16_t l = myTFT_readReg(reg, 1);
     return ((uint32_t) h << 16) | (l);
 }
 
-uint32_t tft_readReg40(uint16_t reg)
+uint32_t myTFT_readReg40(uint16_t reg)
 {
-    uint16_t h = tft_readReg(reg, 0);
-    uint16_t m = tft_readReg(reg, 1);
-    uint16_t l = tft_readReg(reg, 2);
+    uint16_t h = myTFT_readReg(reg, 0);
+    uint16_t m = myTFT_readReg(reg, 1);
+    uint16_t l = myTFT_readReg(reg, 2);
     return ((uint32_t) h << 24) | (m << 8) | (l >> 8);
 }
 
 
-void MCUFRIEND_kbv_setRotation(uint8_t r)
+
+void myTFT_setAddrWindow(int16_t x, int16_t y, int16_t x1, int16_t y1)
+{
+  myTFT_WriteCmdData(0x20, x);
+  myTFT_WriteCmdData(0x21, y);
+
+  myTFT_WriteCmdData(0x37, x);
+  myTFT_WriteCmdData(0x39, y);
+  myTFT_WriteCmdData(0x36, x1);
+  myTFT_WriteCmdData(0x38, y1);
+}
+
+void myTFT_vertScroll(int16_t top, int16_t scrollines, int16_t offset)
+{
+  int16_t vsp;
+  int16_t sea = top;
+	
+  if (offset <= -scrollines || offset >= scrollines) offset = 0; //valid scroll
+	vsp = top + offset; // vertical start position
+    if (offset < 0)
+			
+  vsp += scrollines;          //keep in unsigned range
+  myTFT_WriteCmdData(0x31, sea);        //SEA
+  myTFT_WriteCmdData(0x32, top);        //SSA
+  myTFT_WriteCmdData(0x33, vsp - top);  //SST
+
+}
+
+
+void myTFT_setRotation(uint8_t r)
 {
  
-		uint16_t GS, SS, ORG, REV;// = _lcd_rev;
-    uint8_t val, d[3];
-//    rotation = r & 3;           // just perform the operation ourselves on the protected variables
-//    _width = (rotation & 1) ? HEIGHT : WIDTH;
-//    _height = (rotation & 1) ? WIDTH : HEIGHT;
-/*    switch (rotation) {
+		uint16_t GS=0, SS=0;// = _lcd_rev;
+	
+    myTFT._width = ((r&3) & 1) ? myTFT.HEIGHT : myTFT.WIDTH;
+    myTFT._height = ((r&3) & 1) ? myTFT.WIDTH : myTFT.HEIGHT;
+ /*   
+	switch (rotation) {
     case 0:                    //PORTRAIT:
         val = 0x48;             //MY=0, MX=1, MV=0, ML=0, BGR=1
         break;
@@ -305,146 +273,39 @@ void MCUFRIEND_kbv_setRotation(uint8_t r)
         val = 0xF8;             //MY=1, MX=1, MV=1, ML=1, BGR=1
         break;
     }
-    if (_lcd_capable & INVERT_GS)
-        val ^= 0x80;
-    if (_lcd_capable & INVERT_SS)
-        val ^= 0x40;
-    if (_lcd_capable & INVERT_RGB)
-        val ^= 0x08;
-    if (_lcd_capable & MIPI_DCS_REV1) {
-        if (_lcd_ID == 0x6814) {  //.kbv my weird 0x9486 might be 68140
-            GS = (val & 0x80) ? (1 << 6) : 0;   //MY
-            SS = (val & 0x40) ? (1 << 5) : 0;   //MX
-            val &= 0x28;        //keep MV, BGR, MY=0, MX=0, ML=0
-            d[0] = 0;
-            d[1] = GS | SS | 0x02;      //MY, MX
-            d[2] = 0x3B;
-            WriteCmdParamN(0xB6, 3, d);
-            goto common_MC;
-        } else if (_lcd_ID == 0x1963 || _lcd_ID == 0x9481 || _lcd_ID == 0x1511 || _lcd_ID == 0x1581) {
-            if (val & 0x80)
-                val |= 0x01;    //GS
-            if ((val & 0x40))
-                val |= 0x02;    //SS
-            if (_lcd_ID == 0x1581) { // no Horizontal Flip
-                d[0] = (val & 0x40) ? 0x13 : 0x12; //REV | BGR | SS
-                WriteCmdParamN(0xC0, 1, d);
-            }
-            if (_lcd_ID == 0x1963) val &= ~0xC0;
-            if (_lcd_ID == 0x9481 || _lcd_ID == 0x1581) val &= ~0xD0;
-            if (_lcd_ID == 0x1511) {
-                val &= ~0x10;   //remove ML
-                val |= 0xC0;    //force penguin 180 rotation
-            }
-//            val &= (_lcd_ID == 0x1963) ? ~0xC0 : ~0xD0; //MY=0, MX=0 with ML=0 for ILI9481
-            goto common_MC;
-        } else if (is8347) {
-            _MC = 0x02, _MP = 0x06, _MW = 0x22, _SC = 0x02, _EC = 0x04, _SP = 0x06, _EP = 0x08;
-			if (_lcd_ID == 0x5252) {
-			    val |= 0x02;   //VERT_SCROLLON
-				if (val & 0x10) val |= 0x04;   //if (ML) SS=1 kludge mirror in XXX_REV modes
-            }
-			goto common_BGR;
-        }
-      common_MC:
-        _MC = 0x2A, _MP = 0x2B, _MW = 0x2C, _SC = 0x2A, _EC = 0x2A, _SP = 0x2B, _EP = 0x2B;
-      common_BGR:
-        WriteCmdParamN(is8347 ? 0x16 : 0x36, 1, &val);
-        _lcd_madctl = val;
-//	    if (_lcd_ID	== 0x1963) WriteCmdParamN(0x13, 0, NULL);   //NORMAL mode
-    }
-    // cope with 9320 variants
-    else {
-        switch (_lcd_ID) {
-#if defined(SUPPORT_0139) || defined(SUPPORT_0154)
-#ifdef SUPPORT_0139
-        case 0x0139:
-            _SC = 0x46, _EC = 0x46, _SP = 0x48, _EP = 0x47;
-            goto common_S6D;
-#endif
-#ifdef SUPPORT_0154
-        case 0x0154:
-            _SC = 0x37, _EC = 0x36, _SP = 0x39, _EP = 0x38;
-            goto common_S6D;
-#endif
-          common_S6D:
-            _MC = 0x20, _MP = 0x21, _MW = 0x22;
-            GS = (val & 0x80) ? (1 << 9) : 0;
-            SS = (val & 0x40) ? (1 << 8) : 0;
-            WriteCmdData(0x01, GS | SS | 0x0028);       // set Driver Output Control
-            goto common_ORG;
-#endif
-        case 0x5420:
-        case 0x7793:
-        case 0x9326:
-		case 0xB509:
-            _MC = 0x200, _MP = 0x201, _MW = 0x202, _SC = 0x210, _EC = 0x211, _SP = 0x212, _EP = 0x213;
-            GS = (val & 0x80) ? (1 << 15) : 0;
-			uint16_t NL;
-			NL = ((432 / 8) - 1) << 9;
-            if (_lcd_ID == 0x9326 || _lcd_ID == 0x5420) NL >>= 1;
-            WriteCmdData(0x400, GS | NL);
-            goto common_SS;
-        default:
-            _MC = 0x20, _MP = 0x21, _MW = 0x22, _SC = 0x50, _EC = 0x51, _SP = 0x52, _EP = 0x53;
-            GS = (val & 0x80) ? (1 << 15) : 0;
-            WriteCmdData(0x60, GS | 0x2700);    // Gate Scan Line (0xA700)
-          common_SS:
-            SS = (val & 0x40) ? (1 << 8) : 0;
-            WriteCmdData(0x01, SS);     // set Driver Output Control
-          common_ORG:
-            ORG = (val & 0x20) ? (1 << 3) : 0;
-#ifdef SUPPORT_8230
-            if (_lcd_ID == 0x8230) {    // UC8230 has strange BGR and READ_BGR behaviour
-                if (rotation == 1 || rotation == 2) {
-                    val ^= 0x08;        // change BGR bit for LANDSCAPE and PORTRAIT_REV
-                }
-            }               
-#endif
-            if (val & 0x08)
-                ORG |= 0x1000;  //BGR
-            _lcd_madctl = ORG | 0x0030;
-            WriteCmdData(0x03, _lcd_madctl);    // set GRAM write direction and BGR=1.
-            break;
-#ifdef SUPPORT_1289
-        case 0x1289:
-            _MC = 0x4E, _MP = 0x4F, _MW = 0x22, _SC = 0x44, _EC = 0x44, _SP = 0x45, _EP = 0x46;
-            if (rotation & 1)
-                val ^= 0xD0;    // exchange Landscape modes
-            GS = (val & 0x80) ? (1 << 14) | (1 << 12) : 0;      //called TB (top-bottom)
-            SS = (val & 0x40) ? (1 << 9) : 0;   //called RL (right-left)
-            ORG = (val & 0x20) ? (1 << 3) : 0;  //called AM
-            _lcd_drivOut = GS | SS | (REV << 13) | 0x013F;      //REV=0, BGR=0, MUX=319
-            if (val & 0x08)
-                _lcd_drivOut |= 0x0800; //BGR
-            WriteCmdData(0x01, _lcd_drivOut);   // set Driver Output Control
-            WriteCmdData(0x11, ORG | 0x6070);   // set GRAM write direction.
-            break;
-#endif
-		}
-    }
-    if ((rotation & 1) && ((_lcd_capable & MV_AXIS) == 0)) {
-        uint16_t x;
-        x = _MC, _MC = _MP, _MP = x;
-        x = _SC, _SC = _SP, _SP = x;    //.kbv check 0139
-        x = _EC, _EC = _EP, _EP = x;    //.kbv check 0139
-    }
-    setAddrWindow(0, 0, width() - 1, height() - 1);
-    vertScroll(0, HEIGHT, 0);   //reset scrolling after a rotation
-		*/
+*/
+//  _SC = 0x37, _EC = 0x36, _SP = 0x39, _EP = 0x38;
+//  _MC = 0x20, _MP = 0x21, _MW = 0x22;
+//  GS = (val & 0x80) ? (1 << 9) : 0;
+//  SS = (val & 0x40) ? (1 << 8) : 0;
+  myTFT_WriteCmdData(0x01, GS | SS | 0x0028);       // set Driver Output Control
+
+//  ORG = (val & 0x20) ? (1 << 3) : 0;
+
+
+  myTFT_setAddrWindow(0, 0, myTFT._width - 1, myTFT._height - 1);
+  myTFT_vertScroll(0, myTFT.HEIGHT, 0);   //reset scrolling after a rotation
 }
 
 
-void tft_drawPixel(int16_t x, int16_t y, uint16_t color)
+void myTFT_drawPixel(s32 x, s32 y, u16 color)
 {
+	u16 reg;
   // MCUFRIEND just plots at edge if you try to write outside of the box:
-/*
-  if (x < 0 || y < 0 || x >= width() || y >= height())
-		return;
-	tft_WriteCmdData(_MC, x);
-	tft_WriteCmdData(_MP, y);
-	tft_WriteCmdData(_MW, color);
-*/
+
+//  if (x < 0 || y < 0 || x >= width() || y >= height())
+//		return;
+	
+	myTFT_WriteCmdData(0x20, x);
+	myTFT_WriteCmdData(0x21, y);
+	myTFT_WriteCmdData(0x22, color);
+
+	reg = myTFT_readReg(0x22,0);
+	reg = myTFT_readReg(0x22,0);
+	reg = myTFT_readReg(0x22,0);
+	
+	__nop;
+
 }
 
 
@@ -458,10 +319,10 @@ static void init_table16(const void *table, int16_t size)
         uint16_t cmd = *p++;
         uint16_t d = *p++;
         if (cmd == TFTLCD_DELAY)
-            tft_delay(d);
+            myTFT_delay(d);
         else {
-            WriteCmd(cmd);
-            WriteData(d);
+            myTFT_WriteCmd(cmd);
+            myTFT_WriteData(d);
         }
         size -= 2 * sizeof(int16_t);
     }
@@ -514,22 +375,32 @@ static const uint16_t S6D0154_regValues[] = {
         };
 #define DELAY_50us	300
 #define DELAY_100us	600
-				void tft_init(void)
+
+#define TFT_CONFIG_SIZE	0x83
+u16 tftConfig[TFT_CONFIG_SIZE];
+void myTFT_getConfig(u16 *ptftConfig)
+{
+	u8 cnt;
+	for (cnt=0; cnt<TFT_CONFIG_SIZE; cnt++){
+		*ptftConfig++ = myTFT_readReg(cnt, 0);
+	
+	}	
+}
+void myTFT_init(void)
 {
 	u16 id;
-
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
-	GPIO_DeInit(TFT_PORT);
+	GPIO_DeInit(myTFT_PORT);
 
 	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOB|RCC_APB2Periph_GPIOC, ENABLE );
 	
 	// Configure LCD Back Light (PA8) as output push-pull 
-	GPIO_InitStructure.GPIO_Pin = TFT_PORT_MASK;
+	GPIO_InitStructure.GPIO_Pin = myTFT_PORT_MASK;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	
-	GPIO_Init( TFT_PORT, &GPIO_InitStructure );
+	GPIO_Init( myTFT_PORT, &GPIO_InitStructure );
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -545,15 +416,22 @@ static const uint16_t S6D0154_regValues[] = {
 	RD_IDLE;
 	WR_IDLE;
 	RESET_IDLE;
-	tft_delay(DELAY_50us);
+	myTFT_delay(DELAY_50us);
 	RESET_ACTIVE;
-	tft_delay(DELAY_100us);
+	myTFT_delay(DELAY_100us);
 	RESET_IDLE;
-	tft_delay(DELAY_100us);
-//	tft_WriteCmdData(0xB0, 0x0000);   //R61520 needs this to read ID
+	myTFT_delay(DELAY_100us);
 
-	id = tft_readReg(0x00, 0);
+	id = myTFT_readReg(0x00, 0);
 	init_table16(S6D0154_regValues, sizeof(S6D0154_regValues));
 	
-//	Adafruit_GFX_Init(&tft);
+	Adafruit_GFX_Init(&myTFT);
+	
+	myTFT_setRotation(0);
+	
+	myTFT_drawPixel(100,100,0);
+	myTFT_drawPixel(101,100,0);
+	myTFT_drawPixel(100,101,0);
+	myTFT_drawPixel(101,101,0);
+	myTFT_getConfig(tftConfig);
 }
