@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\radioBridge.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\radioBridge.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Tue Aug 01 17:42:14 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Wed Aug 02 16:46:26 2017
 <BR><P>
 <H3>Maximum Stack Usage =        240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -642,17 +642,17 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[66]"></a>myTFT_WriteCmd</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, tft_lcd.o(i.myTFT_WriteCmd))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = myTFT_WriteCmd &rArr; write16
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = myTFT_WriteCmd &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write16
 </UL>
 <BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_table16
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmdData
 </UL>
 
 <P><STRONG><a name="[6c]"></a>myTFT_WriteCmdData</STRONG> (Thumb, 20 bytes, Stack size 12 bytes, tft_lcd.o(i.myTFT_WriteCmdData))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteData
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmd
@@ -663,8 +663,8 @@ Global Symbols
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_drawPixel
 </UL>
 
-<P><STRONG><a name="[67]"></a>myTFT_WriteData</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, tft_lcd.o(i.myTFT_WriteData))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = myTFT_WriteData &rArr; write16
+<P><STRONG><a name="[67]"></a>myTFT_WriteData</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, tft_lcd.o(i.myTFT_WriteData))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write16
 </UL>
@@ -675,30 +675,31 @@ Global Symbols
 <P><STRONG><a name="[65]"></a>myTFT_delay</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, tft_lcd.o(i.myTFT_delay))
 <BR><BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_init
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_table16
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write8
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read16
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_reset
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
 </UL>
 
-<P><STRONG><a name="[7]"></a>myTFT_drawPixel</STRONG> (Thumb, 64 bytes, Stack size 20 bytes, tft_lcd.o(i.myTFT_drawPixel))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = myTFT_drawPixel &rArr; myTFT_readReg &rArr; myTFT_WriteCmd &rArr; write16
+<P><STRONG><a name="[7]"></a>myTFT_drawPixel</STRONG> (Thumb, 34 bytes, Stack size 16 bytes, tft_lcd.o(i.myTFT_drawPixel))
+<BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = myTFT_drawPixel &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmdData
+<BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmdData
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_init
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> tft_lcd.o(.data)
 </UL>
-<P><STRONG><a name="[6e]"></a>myTFT_getConfig</STRONG> (Thumb, 30 bytes, Stack size 12 bytes, tft_lcd.o(i.myTFT_getConfig))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = myTFT_getConfig &rArr; myTFT_readReg &rArr; myTFT_WriteCmd &rArr; write16
+<P><STRONG><a name="[6d]"></a>myTFT_getConfig</STRONG> (Thumb, 30 bytes, Stack size 12 bytes, tft_lcd.o(i.myTFT_getConfig))
+<BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = myTFT_getConfig &rArr; myTFT_readReg &rArr; myTFT_WriteCmd &rArr; write16 &rArr; write8
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
+<BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_init
 </UL>
 
-<P><STRONG><a name="[6f]"></a>myTFT_init</STRONG> (Thumb, 288 bytes, Stack size 16 bytes, tft_lcd.o(i.myTFT_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = myTFT_init &rArr; myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16
+<P><STRONG><a name="[6f]"></a>myTFT_init</STRONG> (Thumb, 310 bytes, Stack size 16 bytes, tft_lcd.o(i.myTFT_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = myTFT_init &rArr; myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 <LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_DeInit
@@ -706,16 +707,16 @@ Global Symbols
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_table16
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Adafruit_GFX_Init
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_setRotation
-<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_getConfig
+<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_getConfig
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_drawPixel
 <LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvConfigureLCD
 </UL>
 
-<P><STRONG><a name="[6d]"></a>myTFT_readReg</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, tft_lcd.o(i.myTFT_readReg))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = myTFT_readReg &rArr; myTFT_WriteCmd &rArr; write16
+<P><STRONG><a name="[6e]"></a>myTFT_readReg</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, tft_lcd.o(i.myTFT_readReg))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = myTFT_readReg &rArr; myTFT_WriteCmd &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read16
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_reset
@@ -723,8 +724,7 @@ Global Symbols
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmd
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_init
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_getConfig
-<LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_drawPixel
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_getConfig
 </UL>
 
 <P><STRONG><a name="[74]"></a>myTFT_reset</STRONG> (Thumb, 96 bytes, Stack size 4 bytes, tft_lcd.o(i.myTFT_reset))
@@ -732,19 +732,19 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_delay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
 </UL>
 
-<P><STRONG><a name="[76]"></a>myTFT_setAddrWindow</STRONG> (Thumb, 60 bytes, Stack size 20 bytes, tft_lcd.o(i.myTFT_setAddrWindow))
-<BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = myTFT_setAddrWindow &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16
+<P><STRONG><a name="[76]"></a>myTFT_setAddrWindow</STRONG> (Thumb, 44 bytes, Stack size 20 bytes, tft_lcd.o(i.myTFT_setAddrWindow))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = myTFT_setAddrWindow &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmdData
 </UL>
 <BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_setRotation
 </UL>
 
-<P><STRONG><a name="[73]"></a>myTFT_setRotation</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, tft_lcd.o(i.myTFT_setRotation))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16
+<P><STRONG><a name="[73]"></a>myTFT_setRotation</STRONG> (Thumb, 130 bytes, Stack size 16 bytes, tft_lcd.o(i.myTFT_setRotation))
+<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_vertScroll
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_setAddrWindow
@@ -754,7 +754,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[77]"></a>myTFT_vertScroll</STRONG> (Thumb, 68 bytes, Stack size 24 bytes, tft_lcd.o(i.myTFT_vertScroll))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmdData
 </UL>
@@ -762,7 +762,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[8b]"></a>prvConfigureLCD</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, ui.o(i.prvConfigureLCD))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = prvConfigureLCD &rArr; myTFT_init &rArr; myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = prvConfigureLCD &rArr; myTFT_init &rArr; myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_init
 </UL>
@@ -785,8 +785,12 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvInitialiseNewTask
 </UL>
 
-<P><STRONG><a name="[75]"></a>read16</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, tft_lcd.o(i.read16))
-<BR><BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
+<P><STRONG><a name="[75]"></a>read16</STRONG> (Thumb, 176 bytes, Stack size 4 bytes, tft_lcd.o(i.read16))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = read16
+</UL>
+<BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_delay
+</UL>
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_readReg
 </UL>
 
 <P><STRONG><a name="[79]"></a>uxListRemove</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, list.o(i.uxListRemove))
@@ -814,7 +818,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
 <P><STRONG><a name="[40]"></a>vLCDTask</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, ui.o(i.vLCDTask))
-<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = vLCDTask &rArr; prvConfigureLCD &rArr; myTFT_init &rArr; myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = vLCDTask &rArr; prvConfigureLCD &rArr; myTFT_init &rArr; myTFT_setRotation &rArr; myTFT_vertScroll &rArr; myTFT_WriteCmdData &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvConfigureLCD
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvConfigLed
@@ -996,7 +1000,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6b]"></a>write16</STRONG> (Thumb, 20 bytes, Stack size 4 bytes, tft_lcd.o(i.write16))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = write16
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write8
 </UL>
@@ -1004,8 +1008,12 @@ Global Symbols
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteCmd
 </UL>
 
-<P><STRONG><a name="[bb]"></a>write8</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, tft_lcd.o(i.write8))
-<BR><BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write16
+<P><STRONG><a name="[bb]"></a>write8</STRONG> (Thumb, 122 bytes, Stack size 4 bytes, tft_lcd.o(i.write8))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = write8
+</UL>
+<BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_delay
+</UL>
+<BR>[Called By]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write16
 </UL>
 
 <P><STRONG><a name="[b9]"></a>xPortStartScheduler</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, port.o(i.xPortStartScheduler))
@@ -1484,7 +1492,7 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[64]"></a>init_table16</STRONG> (Thumb, 62 bytes, Stack size 24 bytes, tft_lcd.o(i.init_table16))
-<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = init_table16 &rArr; myTFT_WriteData &rArr; write16
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = init_table16 &rArr; myTFT_WriteData &rArr; write16 &rArr; write8
 </UL>
 <BR>[Calls]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_delay
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;myTFT_WriteData
